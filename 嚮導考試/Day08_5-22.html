@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Day 8（5/22）登山嚮導複習</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { height:100%; }
+body { font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+  background:linear-gradient(135deg,#1a3a2e 0%,#2d5a45 100%); color:#1f2937;
+  -webkit-font-smoothing:antialiased; }
+.wrap { max-width:880px; margin:0 auto; padding:24px 18px 120px; min-height:100%; }
+header.bar { display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  color:#eafaf1; margin-bottom:18px; }
+header.bar .badge { background:rgba(255,255,255,.15); padding:5px 12px;
+  border-radius:999px; font-size:13px; font-weight:600; }
+header.bar h1 { font-size:18px; font-weight:700; flex:1 1 100%; line-height:1.5;
+  margin-top:4px; }
+.progress { height:6px; background:rgba(255,255,255,.18); border-radius:99px;
+  overflow:hidden; margin-bottom:18px; }
+.progress > div { height:100%; background:#7ee0a8; width:0; transition:width .25s; }
+.card { background:#fff; border-radius:18px; padding:30px 28px;
+  box-shadow:0 18px 40px rgba(0,0,0,.25); }
+.qmeta { display:flex; align-items:center; gap:10px; margin-bottom:16px;
+  flex-wrap:wrap; }
+.qno { font-weight:800; color:#2d5a45; font-size:15px; }
+.tag { font-size:12px; font-weight:700; padding:3px 10px; border-radius:6px; }
+.tag.tf { background:#e0ecff; color:#1d4ed8; }
+.tag.mc { background:#fde9d7; color:#c2570f; }
+.tag.flag { background:#fde2e2; color:#c0392b; }
+.qtext { font-size:20px; line-height:1.7; font-weight:600; margin-bottom:22px;
+  color:#111827; }
+.opts { display:flex; flex-direction:column; gap:11px; }
+.opt { border:2px solid #e5e7eb; border-radius:12px; padding:13px 16px;
+  font-size:16px; line-height:1.6; display:flex; gap:11px; cursor:pointer;
+  transition:all .15s; background:#fff; }
+.opt:hover { border-color:#9ec8b0; }
+.opt .ol { font-weight:800; color:#6b7280; flex-shrink:0; }
+.opt.correct { border-color:#16a34a; background:#ecfdf3; }
+.opt.correct .ol { color:#16a34a; }
+.tfopts { display:flex; gap:14px; }
+.tfopt { flex:1; text-align:center; border:2px solid #e5e7eb; border-radius:12px;
+  padding:16px; font-size:18px; font-weight:700; cursor:pointer; transition:all .15s; }
+.tfopt:hover { border-color:#9ec8b0; }
+.tfopt.correct { border-color:#16a34a; background:#ecfdf3; color:#16a34a; }
+.ansbox { margin-top:22px; }
+.revealbtn { width:100%; padding:14px; border:none; border-radius:12px;
+  background:#2d5a45; color:#fff; font-size:16px; font-weight:700; cursor:pointer;
+  font-family:inherit; }
+.revealbtn:hover { background:#234937; }
+.answer { display:none; margin-top:16px; padding:16px 18px; border-radius:12px;
+  background:#f0fdf4; border:1px solid #bbf7d0; font-size:16px; line-height:1.7; }
+.answer.show { display:block; }
+.answer .al { font-weight:800; color:#16a34a; }
+.verify { margin-top:14px; padding:14px 16px; border-radius:12px;
+  background:#fff7ed; border:1px solid #fed7aa; font-size:14.5px; line-height:1.75;
+  color:#7c2d12; }
+.verify b { color:#c2410c; }
+.nav { position:fixed; left:0; right:0; bottom:0; background:rgba(26,58,46,.96);
+  backdrop-filter:blur(8px); padding:14px 18px; display:flex; align-items:center;
+  gap:12px; justify-content:center; }
+.nav button { background:#fff; color:#1a3a2e; border:none; padding:11px 20px;
+  border-radius:10px; font-size:15px; font-weight:700; cursor:pointer;
+  font-family:inherit; }
+.nav button:disabled { opacity:.4; cursor:not-allowed; }
+.nav .counter { color:#eafaf1; font-size:15px; font-weight:700; min-width:78px;
+  text-align:center; }
+.nav .mode { background:#7ee0a8; color:#1a3a2e; }
+.homelink { color:#eafaf1; text-decoration:none; font-size:13px;
+  background:rgba(255,255,255,.12); padding:6px 12px; border-radius:8px; }
+.done { text-align:center; color:#eafaf1; padding:50px 20px; }
+.done h2 { font-size:24px; margin-bottom:10px; }
+@media(max-width:600px){ .card{padding:24px 18px;} .qtext{font-size:18px;} }
+
+body[data-mode="quiz"] .opt.correct{border-color:#e5e7eb;background:#fff;}
+body[data-mode="quiz"] .opt.correct .ol{color:#6b7280;}
+body[data-mode="quiz"] .tfopt.correct{border-color:#e5e7eb;background:#fff;color:#1f2937;}
+</style></head>
+<body data-mode="study">
+<div class="wrap">
+<header class="bar">
+  <span class="badge">Day 8 ・ 5/22 週四</span>
+  <span class="badge">共 46 題</span>
+  <a class="homelink" href="00_總覽.html">← 回總覽</a>
+  <h1>五、山區急救及緊急應變（是非題 1-46）</h1>
+</header>
+<div class="progress"><div id="pbar"></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T001</span><span class="tag tf">是非題</span></div><div class="qtext">雖然最近天氣都非常晴朗，但如果要在冬季登高山，仍然應該要攜帶足夠的雪地裝備上山。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T002</span><span class="tag tf">是非題</span></div><div class="qtext">身為有經驗的山域嚮導，在叉路轉彎處應確定所有隊員是否都跟上。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T003</span><span class="tag tf">是非題</span></div><div class="qtext">因為塑膠袋具有不透氣及限制空間的特性，所以必要時可將特大型塑膠袋作為緊急避難帳使用以保暖。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T004</span><span class="tag tf">是非題</span></div><div class="qtext">在野外地區，救援者對病患施行急救時，必須先處理最威脅性命的部分。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T005</span><span class="tag tf">是非題</span></div><div class="qtext">野外緊急維生生火時，若非萬不得已，絕不砍伐活樹。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T006</span><span class="tag tf">是非題</span></div><div class="qtext">海拔高度達2500公尺，表示已達到高海拔疾病(high altitude illness)診斷標準中所稱之高海拔。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T007</span><span class="tag tf">是非題</span></div><div class="qtext">我不是醫師或是專業醫療人員，所以我無法辨認高海拔疾病。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T008</span><span class="tag tf">是非題</span></div><div class="qtext">在高海拔山區，不是由外傷造成的身體不適，應該先假定為高海拔疾病(high altitude illness)。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T009</span><span class="tag tf">是非題</span></div><div class="qtext">在高海拔山區出現身體不舒服，經過休息或吃藥後，其症狀完全緩解，就可以更進一步的上升高度（例如登頂），但須特別注意症狀是否復發。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T010</span><span class="tag tf">是非題</span></div><div class="qtext">在高海拔山區出現身體不舒服，經過休息或吃藥後，其症狀雖然沒有繼續變嚴重，但仍然持續時，應避免再上升高度，甚至應放棄登頂。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T011</span><span class="tag tf">是非題</span></div><div class="qtext">在高海拔山區出現身體不舒服，經過休息或吃藥後，症狀仍然持續變嚴重或無法腳跟對齊腳尖走直線，應該要立即下撤或考慮對外求援。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T012</span><span class="tag tf">是非題</span></div><div class="qtext">如登山隊伍中，有隊員身體不適、陷入昏迷及呼吸困難，無論是中度或嚴重高海拔疾病，就算當下沒有使用藥物，只要快點下撤，仍然有可能挽救生命。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T013</span><span class="tag tf">是非題</span></div><div class="qtext">走路不穩，例如無法腳跟對齊腳尖走直線，是高海拔腦水腫(high altitude cerebral edema)早期最重要的症狀之一。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T014</span><span class="tag tf">是非題</span></div><div class="qtext">曾經發生過嚴重高海拔疾病(high altitude illness)的人，一定還會再發生高海拔疾病，所以絕對不能再登高山或高原。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T015</span><span class="tag tf">是非題</span></div><div class="qtext">每年7至11月份前往登山，應特別考慮留意可能遭遇虎頭蜂的風險。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T016</span><span class="tag tf">是非題</span></div><div class="qtext">VHF/UHF呼叫及緊急救難頻率是145.00MHZ / 431.00MHZ。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T017</span><span class="tag tf">是非題</span></div><div class="qtext">5人組成的登山隊伍，預計進行6天的縱走行程，但在第3天突然發生事故，需要向外求援的情況下，領隊必須徵求1位隊員獨自下山求援。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T018</span><span class="tag tf">是非題</span></div><div class="qtext">8人組成的登山隊伍在山區行走時，後方隊員因遭落石擊中墜崖，當下第一要務是立即救援墜崖的隊員。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T019</span><span class="tag tf">是非題</span></div><div class="qtext">登山過程如發生急難事故時，第一要務為確保隊員之安全，其次才是傷患的救援事宜。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T020</span><span class="tag tf">是非題</span></div><div class="qtext">在海拔3000公尺山區行走時，有位年約30歲的隊員在爬陡坡時，因為感覺太喘，所以整個隊伍停下休息約30分鐘後，該隊員感覺還是有點喘，量測心跳約每分鐘140下；這時領隊應該帶領隊伍向前行走，並請另1名體力較佳的隊員陪他在後方慢慢行走。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T021</span><span class="tag tf">是非題</span></div><div class="qtext">預計8天的高山縱走活動，走到第3天晚上，有位隊員整夜不斷咳嗽，隔天繼續行走時，該名隊員不論行走速度快或慢，都覺得非常喘，體力也感覺明顯比前幾天差。這時只要給他服用感冒藥，就可以讓他跟著隊伍繼續行走。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T022</span><span class="tag tf">是非題</span></div><div class="qtext">山域嚮導可參與「野外緊急救護課程)」或「救護技術人員教育訓練(EMT)」等緊急救護課程，加強自我的緊急救護能力，以備不時之需。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T023</span><span class="tag tf">是非題</span></div><div class="qtext">隊員到山屋時，已經有頭痛噁心症狀，而且完全沒有食慾，但他已自行服藥（丹木斯及止痛藥），所以可請他先睡，不用再進食。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T024</span><span class="tag tf">是非題</span></div><div class="qtext">前往高山行走前，可請隊員準備「威而鋼」，以利於山區發生急性高山病症狀時減緩其症狀，繼續登山。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T025</span><span class="tag tf">是非題</span></div><div class="qtext">往高山行走前2週，通知隊員每天跑步3000公尺，可提升體能，以利高山行走活動。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T026</span><span class="tag tf">是非題</span></div><div class="qtext">依據2018年3月新版的露易絲湖急性高山病(Lake Louise Acute Mountain Sickness)診斷，頭痛是診斷急性高山病的一定要有的症狀。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T027</span><span class="tag tf">是非題</span></div><div class="qtext">依據2018年3月新版的露易絲湖急性高山病(Lake Louise Acute Mountain Sickness)診斷，有登高及重度頭痛，就可以診斷是急性高山病。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T028</span><span class="tag tf">是非題</span></div><div class="qtext">依據2018年3月新版的露易絲湖急性高山病(Lake Louise Acute Mountain Sickness)診斷，失眠是診斷急性高山病的症狀。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T029</span><span class="tag tf">是非題</span></div><div class="qtext">依據2018年3月新版的露易絲湖急性高山病(Lake Louise Acute Mountain Sickness)診斷，嘔吐是急性高山病的輕度症狀。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T030</span><span class="tag tf">是非題</span></div><div class="qtext">依據2018年3月新版的露易絲湖急性高山病(Lake Louise Acute Mountain Sickness)診斷，有登高，有輕度頭暈及輕度虛弱，但無其他症狀，仍符合急性高山病的診斷。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T031</span><span class="tag tf">是非題</span></div><div class="qtext">以前爬過玉山成功登頂，以後這輩子再爬玉山應該不可能會發生嚴重症狀。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T032</span><span class="tag tf">是非題</span></div><div class="qtext">一步一腳印慢慢走路上山，比坐車快速上山，更容易發生高山症。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T033</span><span class="tag tf">是非題</span></div><div class="qtext">台灣的山都不算太高，應不可能發生嚴重高山症。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T034</span><span class="tag tf">是非題</span></div><div class="qtext">走路爬坡時呼吸喘是診斷高山肺水腫的典型症狀。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T035</span><span class="tag tf">是非題</span></div><div class="qtext">休息時呼吸困難是診斷高山肺水腫的典型症狀。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T036</span><span class="tag tf">是非題</span></div><div class="qtext">乾咳是高山肺水腫的症狀。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T037</span><span class="tag tf">是非題</span></div><div class="qtext">咳帶血的痰液(粉紅色泡沫痰)是高山肺水腫的典型症狀。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T038</span><span class="tag tf">是非題</span></div><div class="qtext">走路步態不穩是高山腦水腫的早期症狀。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T039</span><span class="tag tf">是非題</span></div><div class="qtext">到高山，通常上升速度越快，高山症越嚴重。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T040</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，丹木斯(Diamox, Acetazolamide)是預防急性高山病(Acute Mountain Sickness)的首選藥物。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T041</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，威而鋼(Viagra)不是預防急性高山病(Acute Mountain Sickness)的建議藥物。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T042</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，丹木斯(Diamox, Acetazolamide)及類固醇(Dexamethasone)都是預防高山腦水腫(High Altitude Cerebral Edema)的建議藥物。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T043</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，威而鋼(Viagra)不是預防高山腦水腫(High Altitude Cerebral Edema)的建議藥物。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T044</span><span class="tag tf">是非題</span> <span class="tag flag">⚠ 驗證註記</span></div><div class="qtext">根據最新美國野外醫學會的建議，預先在平地使用低氧帳(Hypoxic Tent)，增進適應高山低氧環境，可用來預防急性高山病(Acute Mountain Sickness)及高山腦水腫(High Altitude Cerebral Edema) 的首選藥物。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）<div class="verify"><b>驗證註記</b><br>⚠️ 題目用詞不精確：低氧帳並非「藥物」。但其概念（事先在平地用低氧帳預適應，可幫助預防 AMS 與 HACE）為題庫所採，故答 O。</div></div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T045</span><span class="tag tf">是非題</span> <span class="tag flag">⚠ 驗證註記</span></div><div class="qtext">根據最新美國野外醫學會的建議，鈣離子阻斷劑(Nifedipine) 是預防高山肺水腫(High Altitude Cerebral Edema) 的首選藥物。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）<div class="verify"><b>驗證註記</b><br>⚠️ 題目英文標示誤植：括號寫成 HACE，實際應為 HAPE（高山肺水腫）。Nifedipine（鈣離子阻斷劑）確為預防高山肺水腫的首選藥物，故答 O。</div></div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T046</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，對於高山肺水腫(High Altitude Cerebral Edema) 的預防，威而鋼(Viagra)比鈣離子阻斷劑(Nifedipine) 優先。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card done" style="display:none">
+  <h2>🎉 Day 8 完成！</h2>
+  <p>今天的 46 題複習完畢，明天繼續加油。</p>
+</div>
+</div>
+<div class="nav">
+  <button id="prev" onclick="prev()">‹ 上一題</button>
+  <span class="counter" id="cnt"></span>
+  <button id="next" onclick="next()">下一題 ›</button>
+  <button class="mode" id="modebtn" onclick="toggleMode()">目前：複習模式</button>
+</div>
+<script>
+let idx=0, mode='study';
+const cards=document.querySelectorAll('.card');
+const total=cards.length;
+const qTotal=total-1;
+function show(i){
+  cards.forEach((c,j)=>c.style.display=(j===i)?'block':'none');
+  idx=i;
+  document.getElementById('cnt').textContent=(i>=qTotal)?'完成':((i+1)+' / '+qTotal);
+  document.getElementById('pbar').style.width=((i+1)/total*100)+'%';
+  document.getElementById('prev').disabled=(i===0);
+  document.getElementById('next').disabled=(i===total-1);
+  window.scrollTo(0,0);
+}
+function reveal(btn){
+  btn.nextElementSibling.classList.add('show');
+  btn.style.display='none';
+}
+function next(){ if(idx<total-1) show(idx+1); }
+function prev(){ if(idx>0) show(idx-1); }
+function toggleMode(){
+  mode=(mode==='study')?'quiz':'study';
+  document.body.dataset.mode=mode;
+  document.getElementById('modebtn').textContent=(mode==='study')?'目前：複習模式':'目前：測驗模式';
+  document.querySelectorAll('.answer').forEach(a=>a.classList.remove('show'));
+  document.querySelectorAll('.revealbtn').forEach(b=>b.style.display='block');
+  document.querySelectorAll('.opt,.tfopt').forEach(o=>{
+    if(mode==='quiz') o.classList.add('hide-correct');
+    else o.classList.remove('hide-correct');
+  });
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight') next();
+  if(e.key==='ArrowLeft') prev();
+  if(e.key===' '){e.preventDefault();
+    const b=cards[idx].querySelector('.revealbtn');
+    if(b&&b.style.display!=='none') reveal(b); else next();}
+});
+show(0);
+</script>
+</body></html>

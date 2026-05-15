@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Day 9（5/23）登山嚮導複習</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { height:100%; }
+body { font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+  background:linear-gradient(135deg,#1a3a2e 0%,#2d5a45 100%); color:#1f2937;
+  -webkit-font-smoothing:antialiased; }
+.wrap { max-width:880px; margin:0 auto; padding:24px 18px 120px; min-height:100%; }
+header.bar { display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  color:#eafaf1; margin-bottom:18px; }
+header.bar .badge { background:rgba(255,255,255,.15); padding:5px 12px;
+  border-radius:999px; font-size:13px; font-weight:600; }
+header.bar h1 { font-size:18px; font-weight:700; flex:1 1 100%; line-height:1.5;
+  margin-top:4px; }
+.progress { height:6px; background:rgba(255,255,255,.18); border-radius:99px;
+  overflow:hidden; margin-bottom:18px; }
+.progress > div { height:100%; background:#7ee0a8; width:0; transition:width .25s; }
+.card { background:#fff; border-radius:18px; padding:30px 28px;
+  box-shadow:0 18px 40px rgba(0,0,0,.25); }
+.qmeta { display:flex; align-items:center; gap:10px; margin-bottom:16px;
+  flex-wrap:wrap; }
+.qno { font-weight:800; color:#2d5a45; font-size:15px; }
+.tag { font-size:12px; font-weight:700; padding:3px 10px; border-radius:6px; }
+.tag.tf { background:#e0ecff; color:#1d4ed8; }
+.tag.mc { background:#fde9d7; color:#c2570f; }
+.tag.flag { background:#fde2e2; color:#c0392b; }
+.qtext { font-size:20px; line-height:1.7; font-weight:600; margin-bottom:22px;
+  color:#111827; }
+.opts { display:flex; flex-direction:column; gap:11px; }
+.opt { border:2px solid #e5e7eb; border-radius:12px; padding:13px 16px;
+  font-size:16px; line-height:1.6; display:flex; gap:11px; cursor:pointer;
+  transition:all .15s; background:#fff; }
+.opt:hover { border-color:#9ec8b0; }
+.opt .ol { font-weight:800; color:#6b7280; flex-shrink:0; }
+.opt.correct { border-color:#16a34a; background:#ecfdf3; }
+.opt.correct .ol { color:#16a34a; }
+.tfopts { display:flex; gap:14px; }
+.tfopt { flex:1; text-align:center; border:2px solid #e5e7eb; border-radius:12px;
+  padding:16px; font-size:18px; font-weight:700; cursor:pointer; transition:all .15s; }
+.tfopt:hover { border-color:#9ec8b0; }
+.tfopt.correct { border-color:#16a34a; background:#ecfdf3; color:#16a34a; }
+.ansbox { margin-top:22px; }
+.revealbtn { width:100%; padding:14px; border:none; border-radius:12px;
+  background:#2d5a45; color:#fff; font-size:16px; font-weight:700; cursor:pointer;
+  font-family:inherit; }
+.revealbtn:hover { background:#234937; }
+.answer { display:none; margin-top:16px; padding:16px 18px; border-radius:12px;
+  background:#f0fdf4; border:1px solid #bbf7d0; font-size:16px; line-height:1.7; }
+.answer.show { display:block; }
+.answer .al { font-weight:800; color:#16a34a; }
+.verify { margin-top:14px; padding:14px 16px; border-radius:12px;
+  background:#fff7ed; border:1px solid #fed7aa; font-size:14.5px; line-height:1.75;
+  color:#7c2d12; }
+.verify b { color:#c2410c; }
+.nav { position:fixed; left:0; right:0; bottom:0; background:rgba(26,58,46,.96);
+  backdrop-filter:blur(8px); padding:14px 18px; display:flex; align-items:center;
+  gap:12px; justify-content:center; }
+.nav button { background:#fff; color:#1a3a2e; border:none; padding:11px 20px;
+  border-radius:10px; font-size:15px; font-weight:700; cursor:pointer;
+  font-family:inherit; }
+.nav button:disabled { opacity:.4; cursor:not-allowed; }
+.nav .counter { color:#eafaf1; font-size:15px; font-weight:700; min-width:78px;
+  text-align:center; }
+.nav .mode { background:#7ee0a8; color:#1a3a2e; }
+.homelink { color:#eafaf1; text-decoration:none; font-size:13px;
+  background:rgba(255,255,255,.12); padding:6px 12px; border-radius:8px; }
+.done { text-align:center; color:#eafaf1; padding:50px 20px; }
+.done h2 { font-size:24px; margin-bottom:10px; }
+@media(max-width:600px){ .card{padding:24px 18px;} .qtext{font-size:18px;} }
+
+body[data-mode="quiz"] .opt.correct{border-color:#e5e7eb;background:#fff;}
+body[data-mode="quiz"] .opt.correct .ol{color:#6b7280;}
+body[data-mode="quiz"] .tfopt.correct{border-color:#e5e7eb;background:#fff;color:#1f2937;}
+</style></head>
+<body data-mode="study">
+<div class="wrap">
+<header class="bar">
+  <span class="badge">Day 9 ・ 5/23 週五</span>
+  <span class="badge">共 45 題</span>
+  <a class="homelink" href="00_總覽.html">← 回總覽</a>
+  <h1>五、山區急救及緊急應變（是非題 47-91）</h1>
+</header>
+<div class="progress"><div id="pbar"></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T047</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，對於急性高山病(Acute Mountain Sickness)的治療，使用攜帶型加壓袋(Portable Hyperbaric Chamber)比給氧優先。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T048</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，對於急性高山病(Acute Mountain Sickness)的治療，使用攜帶型加壓袋(Portable Hyperbaric Chamber)比降低高度優先。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T049</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，對於急性高山病(Acute Mountain Sickness)的藥物治療，丹木斯(Diamox, Acetazolamide) 比類固醇(Dexamethasone)優先。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T050</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，對於高山腦水腫(High Altitude Cerebral Edema)的治療，使用攜帶型加壓袋(Portable Hyperbaric Chamber)比降低高度優先。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T051</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，對於高山腦水腫(High Altitude Cerebral Edema)的治療，使用攜帶型加壓袋(Portable Hyperbaric Chamber)比使用氧氣優先。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T052</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，對於高山腦水腫(High Altitude Cerebral Edema)的治療，下降及使用氧氣比使用攜帶型加壓袋(Portable Hyperbaric Chamber) 優先。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T053</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，對於高山腦水腫(High Altitude Cerebral Edema)的藥物治療，類固醇(Dexamethasone) 比丹木斯(Diamox, Acetazolamide) 優先且更有效。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T054</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，對於高山肺水腫(High Altitude Cerebral Edema) 的治療，使用攜帶型加壓袋(Portable Hyperbaric Chamber)比降低高度優先。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T055</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，對於高山肺水腫(High Altitude Cerebral Edema) 的治療，使用攜帶型加壓袋(Portable Hyperbaric Chamber)比使用氧氣優先。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T056</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，對於高山肺水腫(High Altitude Cerebral Edema) 的治療，下降及使用氧氣比使用攜帶型加壓袋(Portable Hyperbaric Chamber) 優先。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T057</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，對於高山肺水腫(High Altitude Pulmonary Edema) 的藥物治療，威而鋼(Viagra)比鈣離子阻斷劑(Nifedipine) 優先。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T058</span><span class="tag tf">是非題</span></div><div class="qtext">根據最新美國野外醫學會的建議，對於高山肺水腫(High Altitude Pulmonary Edema)的藥物治療，丹木斯(Diamox, Acetazolamide) 比鈣離子阻斷劑(Nifedipine) 優先。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T059</span><span class="tag tf">是非題</span></div><div class="qtext">在高山紫外線指數強度通常比平地強。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T060</span><span class="tag tf">是非題</span></div><div class="qtext">雪盲(Snow Blindness)通常是指在雪地紫外光太強所造成之眼角膜灼傷。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T061</span><span class="tag tf">是非題</span></div><div class="qtext">被閃電擊中後，病人身上不帶電，施予急救一般是安全的 。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T062</span><span class="tag tf">是非題</span></div><div class="qtext">根據閃電密度(Density Of Lightning Strikes)分布，在高山被閃電擊中的風險比平地高。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T063</span><span class="tag tf">是非題</span></div><div class="qtext">根據閃電30-30通則，其中之一是指”聽到最後一聲雷聲，30分鐘沒有聽到雷聲後，進行戶外活動才比較安全。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T064</span><span class="tag tf">是非題</span></div><div class="qtext">根據閃電30-30通則，其中之一是指”聽到最後一聲雷聲，30秒沒有聽到雷聲後，進行戶外活動就可安全地進行戶外活動。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T065</span><span class="tag tf">是非題</span></div><div class="qtext">閃電時，躲在帳棚中可避免被閃電擊中。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T066</span><span class="tag tf">是非題</span></div><div class="qtext">閃電時，在高山稜線 (Ridgelines)上，比在濃密的樹林中安全。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T067</span><span class="tag tf">是非題</span></div><div class="qtext">根據瑞士低體溫分級系統(Swiss Staging System Of Hypothermia) ，中心體溫在30℃時，病人還會發抖。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T068</span><span class="tag tf">是非題</span></div><div class="qtext">根據瑞士低體溫分級系統(Swiss Staging System Of Hypothermia)，中心體溫在30℃時，病人會意識不清。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T069</span><span class="tag tf">是非題</span></div><div class="qtext">被毒蛇咬到腳，應即刻在大腿上端綁止血帶，以防止毒液回流。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T070</span><span class="tag tf">是非題</span></div><div class="qtext">被毒蛇咬到腳，應即刻用吸允器，將毒液吸出。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T071</span><span class="tag tf">是非題</span></div><div class="qtext">被毒蛇咬傷，改善病況最重要最有效的治療,就是儘快到醫院打抗蛇毒血清。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T072</span><span class="tag tf">是非題</span></div><div class="qtext">高山住民到山下工作一年後再上山，應不可能會發生高山症。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T073</span><span class="tag tf">是非題</span></div><div class="qtext">對溺水之心臟停止病患，應盡量使用哈姆立克法將應將病人吞入胃中的水擠壓出來，以增加存活率。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T074</span><span class="tag tf">是非題</span></div><div class="qtext">對溺水病患，如果病患是清醒的，上岸後縱使只有輕微咳嗽的症狀，仍然建議送醫治療。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T075</span><span class="tag tf">是非題</span></div><div class="qtext">對溺水心臟停止病人的急救，建議先吹兩口氣，再壓胸30次。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T076</span><span class="tag tf">是非題</span></div><div class="qtext">對猝死心臟停止病人的急救，建議先壓胸30次，再吹兩口氣。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T077</span><span class="tag tf">是非題</span></div><div class="qtext">依美國心臟醫學會建議，一般民眾對於成人突發心臟停止，進行心肺復甦術(CPR)時，胸部按壓與吹氣比為15:2。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T078</span><span class="tag tf">是非題</span></div><div class="qtext">依據美國心臟醫學會的建議，對於自動電擊器(AED)的使用，縱使未受過AED訓練者，使用 AED，也能幫助病人。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T079</span><span class="tag tf">是非題</span></div><div class="qtext">依據美國心臟醫學會的建議，沒受過自動電擊器(AED)訓練者，不得使用AED。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T080</span><span class="tag tf">是非題</span></div><div class="qtext">對猝死心臟停止病人的急救，及時施行心肺復甦術(CPR)及早期使用自動電擊器(AED)，是將病人救活的最重要兩大關鍵。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T081</span><span class="tag tf">是非題</span></div><div class="qtext">一位60歲的山友，30分鐘前沒有任何不舒服症狀，30分鐘後突然在山莊暴斃，最常見原因是高山症所致。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T082</span><span class="tag tf">是非題</span></div><div class="qtext">一位50歲的山友，30分鐘前沒有任何不舒服症狀，30分鐘後突然在山莊暴斃，最常見原因是心臟冠狀動脈疾病所致之心律不整</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T083</span><span class="tag tf">是非題</span></div><div class="qtext">一位25歲男性山友在山屋突然癲癇發作，應立即用手帕或毛巾包著我們的手指伸入病人口中，以防止病人咬傷舌頭。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T084</span><span class="tag tf">是非題</span></div><div class="qtext">一位22歲男性山友在山屋突然癲癇發作，應立即以不鏽鋼製湯匙或筷子伸入病人口中，以防止病人咬傷舌頭。</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T085</span><span class="tag tf">是非題</span></div><div class="qtext">一位35歲糖尿病山友，早上在山屋被發生意識不清，可在其口內面頰及牙齦間抹糖粉，以治療可能發生之低血糖。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T086</span><span class="tag tf">是非題</span></div><div class="qtext">山友在現場以微血管充填來評估休克，如微血管充填時間(Capillary Refill Time)大於2秒，代表病人處於休克狀態。</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T087</span><span class="tag tf">是非題</span></div><div class="qtext">對於肢體大量出血，根據美國心臟協會的建議，可以直接加壓止血法及止血帶止血法，以減少出血量並保住性命</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T088</span><span class="tag tf">是非題</span></div><div class="qtext">對於肢體大量出血，根據美國心臟協會的建議，可用壓力點止血以保命</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T089</span><span class="tag tf">是非題</span></div><div class="qtext">22歲男子被尖的長箭竹刺進右胸，此時長箭約有15公分長仍在胸腔內，20公分在胸腔外，此時應立即將長箭竹拔出以保命</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T090</span><span class="tag tf">是非題</span></div><div class="qtext">60歲山友原來無任何不舒服症狀，10分鐘前突然發生右手右腳無力，最可能是因高山腦水腫所致</div><div class="opts tfopts"><div class="tfopt" data-k="O">○ 對</div><div class="tfopt correct" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>✗（錯）</div></div></div>
+<div class="card"><div class="qmeta"><span class="qno">17T091</span><span class="tag tf">是非題</span></div><div class="qtext">55歲山友原來無任何不舒服症狀，10分鐘前突然發生左手左腳無力，最可能是因腦中風所致</div><div class="opts tfopts"><div class="tfopt correct" data-k="O">○ 對</div><div class="tfopt" data-k="X">✗ 錯</div></div><div class="ansbox"><button class="revealbtn" onclick="reveal(this)">顯示答案</button><div class="answer"><span class="al">正解：</span>○（對）</div></div></div>
+<div class="card done" style="display:none">
+  <h2>🎉 Day 9 完成！</h2>
+  <p>今天的 45 題複習完畢，明天繼續加油。</p>
+</div>
+</div>
+<div class="nav">
+  <button id="prev" onclick="prev()">‹ 上一題</button>
+  <span class="counter" id="cnt"></span>
+  <button id="next" onclick="next()">下一題 ›</button>
+  <button class="mode" id="modebtn" onclick="toggleMode()">目前：複習模式</button>
+</div>
+<script>
+let idx=0, mode='study';
+const cards=document.querySelectorAll('.card');
+const total=cards.length;
+const qTotal=total-1;
+function show(i){
+  cards.forEach((c,j)=>c.style.display=(j===i)?'block':'none');
+  idx=i;
+  document.getElementById('cnt').textContent=(i>=qTotal)?'完成':((i+1)+' / '+qTotal);
+  document.getElementById('pbar').style.width=((i+1)/total*100)+'%';
+  document.getElementById('prev').disabled=(i===0);
+  document.getElementById('next').disabled=(i===total-1);
+  window.scrollTo(0,0);
+}
+function reveal(btn){
+  btn.nextElementSibling.classList.add('show');
+  btn.style.display='none';
+}
+function next(){ if(idx<total-1) show(idx+1); }
+function prev(){ if(idx>0) show(idx-1); }
+function toggleMode(){
+  mode=(mode==='study')?'quiz':'study';
+  document.body.dataset.mode=mode;
+  document.getElementById('modebtn').textContent=(mode==='study')?'目前：複習模式':'目前：測驗模式';
+  document.querySelectorAll('.answer').forEach(a=>a.classList.remove('show'));
+  document.querySelectorAll('.revealbtn').forEach(b=>b.style.display='block');
+  document.querySelectorAll('.opt,.tfopt').forEach(o=>{
+    if(mode==='quiz') o.classList.add('hide-correct');
+    else o.classList.remove('hide-correct');
+  });
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight') next();
+  if(e.key==='ArrowLeft') prev();
+  if(e.key===' '){e.preventDefault();
+    const b=cards[idx].querySelector('.revealbtn');
+    if(b&&b.style.display!=='none') reveal(b); else next();}
+});
+show(0);
+</script>
+</body></html>
