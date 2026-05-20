@@ -74,6 +74,26 @@ header.bar h1 { font-size:18px; font-weight:700; flex:1 1 100%; line-height:1.5;
 body[data-mode="quiz"] .opt.correct{border-color:#e5e7eb;background:#fff;}
 body[data-mode="quiz"] .opt.correct .ol{color:#6b7280;}
 body[data-mode="quiz"] .tfopt.correct{border-color:#e5e7eb;background:#fff;color:#1f2937;}
+/* Quiz feedback */
+.quiz-feedback{margin-bottom:14px;padding:12px 16px;border-radius:10px;font-size:17px;font-weight:800;text-align:center;}
+.quiz-feedback.correct{background:#dcfce7;color:#166534;}
+.quiz-feedback.wrong{background:#fee2e2;color:#991b1b;}
+body[data-mode="quiz"] .opt.selected-wrong{border-color:#dc2626!important;background:#fef2f2!important;}
+body[data-mode="quiz"] .opt.selected-wrong .ol{color:#dc2626!important;}
+body[data-mode="quiz"] .tfopt.selected-wrong{border-color:#dc2626!important;background:#fef2f2!important;color:#dc2626!important;}
+body[data-mode="quiz"] .opt.correct.revealed{border-color:#16a34a!important;background:#ecfdf3!important;}
+body[data-mode="quiz"] .opt.correct.revealed .ol{color:#16a34a!important;}
+body[data-mode="quiz"] .tfopt.correct.revealed{border-color:#16a34a!important;background:#ecfdf3!important;color:#16a34a!important;}
+/* Jump modal */
+.jump-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;}
+.jump-overlay.open{display:flex;}
+.jump-box{background:#fff;border-radius:18px;padding:24px;max-width:500px;width:92%;max-height:80vh;overflow-y:auto;}
+.jump-box h3{font-size:17px;font-weight:800;margin-bottom:16px;color:#1a3a2e;}
+.jump-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px;}
+.jump-item{border:2px solid #e5e7eb;border-radius:8px;padding:8px 4px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;color:#374151;transition:all .15s;}
+.jump-item:hover{border-color:#2d5a45;color:#2d5a45;background:#f0fdf4;}
+.jump-item.visited{background:#f0fdf4;border-color:#bbf7d0;}
+.jump-close{margin-top:16px;width:100%;padding:12px;background:#2d5a45;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;}
 </style></head>
 <body data-mode="study">
 <div class="wrap">
@@ -134,50 +154,113 @@ body[data-mode="quiz"] .tfopt.correct{border-color:#e5e7eb;background:#fff;color
   <p>今天的 45 題複習完畢，明天繼續加油。</p>
 </div>
 </div>
+<div id="jumpOverlay" class="jump-overlay" onclick="if(event.target===this)closeJump()">
+  <div class="jump-box">
+    <h3>跳至題目</h3>
+    <div class="jump-list" id="jumpList"></div>
+    <button class="jump-close" onclick="closeJump()">關閉</button>
+  </div>
+</div>
 <div class="nav">
   <button id="prev" onclick="prev()">‹ 上一題</button>
   <span class="counter" id="cnt"></span>
   <button id="next" onclick="next()">下一題 ›</button>
   <button class="mode" id="modebtn" onclick="toggleMode()">目前：複習模式</button>
+  <button class="mode" style="background:#5ab0e0;" onclick="openJump()">跳題</button>
 </div>
 <script>
 let idx=0, mode='study';
 const cards=document.querySelectorAll('.card');
 const total=cards.length;
 const qTotal=total-1;
+const STORAGE_KEY='guide_'+location.pathname.split('/').pop().replace('.html','')+'_idx';
+const visited=new Set();
+
 function show(i){
   cards.forEach((c,j)=>c.style.display=(j===i)?'block':'none');
   idx=i;
+  visited.add(i);
   document.getElementById('cnt').textContent=(i>=qTotal)?'完成':((i+1)+' / '+qTotal);
   document.getElementById('pbar').style.width=((i+1)/total*100)+'%';
   document.getElementById('prev').disabled=(i===0);
   document.getElementById('next').disabled=(i===total-1);
   window.scrollTo(0,0);
+  try{localStorage.setItem(STORAGE_KEY,i);}catch(e){}
 }
+
 function reveal(btn){
   btn.nextElementSibling.classList.add('show');
   btn.style.display='none';
 }
-function next(){ if(idx<total-1) show(idx+1); }
-function prev(){ if(idx>0) show(idx-1); }
+
+function next(){if(idx<total-1)show(idx+1);}
+function prev(){if(idx>0)show(idx-1);}
+
 function toggleMode(){
   mode=(mode==='study')?'quiz':'study';
   document.body.dataset.mode=mode;
   document.getElementById('modebtn').textContent=(mode==='study')?'目前：複習模式':'目前：測驗模式';
   document.querySelectorAll('.answer').forEach(a=>a.classList.remove('show'));
   document.querySelectorAll('.revealbtn').forEach(b=>b.style.display='block');
-  document.querySelectorAll('.opt,.tfopt').forEach(o=>{
-    if(mode==='quiz') o.classList.add('hide-correct');
-    else o.classList.remove('hide-correct');
+  document.querySelectorAll('.card').forEach(c=>{
+    delete c.dataset.answered;
+    c.querySelectorAll('.opt,.tfopt').forEach(o=>{
+      o.style.pointerEvents='';
+      o.classList.remove('selected-wrong','revealed');
+    });
+    const fb=c.querySelector('.quiz-feedback');
+    if(fb)fb.remove();
   });
 }
+
+document.querySelectorAll('.opt,.tfopt').forEach(opt=>{
+  opt.addEventListener('click',function(){
+    if(mode!=='quiz')return;
+    const card=this.closest('.card');
+    if(card.dataset.answered)return;
+    card.dataset.answered='true';
+    card.querySelectorAll('.opt,.tfopt').forEach(o=>o.style.pointerEvents='none');
+    const isCorrect=this.classList.contains('correct');
+    const fb=document.createElement('div');
+    fb.className='quiz-feedback '+(isCorrect?'correct':'wrong');
+    fb.textContent=isCorrect?'✓ 答對了！':'✗ 答錯了！';
+    card.querySelector('.ansbox').prepend(fb);
+    if(isCorrect){
+      this.classList.add('revealed');
+    }else{
+      this.classList.add('selected-wrong');
+      card.querySelectorAll('.opt.correct,.tfopt.correct').forEach(o=>o.classList.add('revealed'));
+    }
+    const btn=card.querySelector('.revealbtn');
+    if(btn&&btn.style.display!=='none')reveal(btn);
+  });
+});
+
+function openJump(){
+  const overlay=document.getElementById('jumpOverlay');
+  const list=document.getElementById('jumpList');
+  list.innerHTML='';
+  for(let i=0;i<qTotal;i++){
+    const item=document.createElement('div');
+    item.className='jump-item'+(visited.has(i)?' visited':'');
+    item.textContent=(i+1);
+    item.onclick=(function(n){return function(){show(n);closeJump();};})(i);
+    list.appendChild(item);
+  }
+  overlay.classList.add('open');
+}
+function closeJump(){document.getElementById('jumpOverlay').classList.remove('open');}
+
 document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowRight') next();
-  if(e.key==='ArrowLeft') prev();
+  if(e.key==='ArrowRight')next();
+  if(e.key==='ArrowLeft')prev();
   if(e.key===' '){e.preventDefault();
     const b=cards[idx].querySelector('.revealbtn');
-    if(b&&b.style.display!=='none') reveal(b); else next();}
+    if(b&&b.style.display!=='none')reveal(b);else next();}
 });
-show(0);
+
+let startIdx=0;
+try{const s=localStorage.getItem(STORAGE_KEY);if(s!==null)startIdx=Math.min(parseInt(s)||0,qTotal);}catch(e){}
+show(startIdx);
 </script>
 </body></html>
