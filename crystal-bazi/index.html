@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>命晶 · 八字水晶推算</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5EEE6;
+  --surface: #FFFFFF;
+  --border: #EDE0D0;
+  --text: #2C1810;
+  --text-soft: #8A6F5E;
+  --accent: #D4847A;
+  --accent-light: #F0C4BC;
+  --gold: #C8A96E;
+  --radius: 16px;
+  --shadow: 0 2px 20px rgba(44,24,16,0.08);
+  --shadow-lg: 0 8px 40px rgba(44,24,16,0.12);
+  --wood: #88B083; --fire: #D47B6A; --earth: #C5A265; --metal: #A8B0B8; --water: #6A92B5;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:'Noto Sans TC',sans-serif; font-weight:300; min-height:100vh; line-height:1.7; }
+
+.site-header { padding:52px 24px 36px; text-align:center; }
+.site-header::after { content:''; display:block; width:48px; height:2px; background:var(--accent); margin:20px auto 0; border-radius:2px; }
+.logo { font-family:'Noto Serif TC',serif; font-size:34px; font-weight:600; letter-spacing:10px; }
+.logo span { color:var(--accent); }
+.tagline { font-size:12px; color:var(--text-soft); letter-spacing:4px; margin-top:8px; }
+
+.form-section { max-width:460px; margin:0 auto; padding:0 20px 60px; }
+.form-card { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow-lg); padding:36px 32px; }
+.form-card h2 { font-family:'Noto Serif TC',serif; font-size:17px; font-weight:400; letter-spacing:3px; color:var(--text); margin-bottom:28px; text-align:center; }
+.form-card h2::before,.form-card h2::after { content:' · '; color:var(--accent); }
+.form-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:14px; }
+.form-row.single { grid-template-columns:1fr; }
+.form-group label { display:block; font-size:11px; letter-spacing:2px; color:var(--text-soft); margin-bottom:6px; }
+select { width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:10px; background:var(--bg); color:var(--text); font-family:'Noto Sans TC',sans-serif; font-size:14px; font-weight:400; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23A8B0B8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; cursor:pointer; transition:border-color .2s; }
+select:focus { outline:none; border-color:var(--accent); }
+.btn-calc { width:100%; margin-top:24px; padding:16px; background:var(--accent); color:white; border:none; border-radius:12px; font-family:'Noto Serif TC',serif; font-size:16px; letter-spacing:4px; cursor:pointer; transition:background .2s,transform .1s; }
+.btn-calc:hover { background:#C8706A; }
+.btn-calc:active { transform:scale(.98); }
+
+#results { display:none; max-width:640px; margin:0 auto; padding:0 20px 80px; animation:fadeUp .6s ease both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+.section-title { font-family:'Noto Serif TC',serif; font-size:12px; font-weight:400; letter-spacing:5px; color:var(--text-soft); text-align:center; margin:40px 0 18px; display:flex; align-items:center; gap:12px; }
+.section-title::before,.section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+.pillars-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.pillar-card { background:var(--surface); border-radius:14px; box-shadow:var(--shadow); padding:18px 8px 16px; text-align:center; position:relative; border-top:3px solid transparent; }
+.pillar-card.is-day { border-top-color:var(--gold); }
+.pillar-label { font-size:10px; letter-spacing:2px; color:var(--text-soft); margin-bottom:10px; }
+.star-badge { position:absolute; top:7px; right:7px; font-size:9px; color:var(--gold); letter-spacing:1px; }
+.pillar-stem { font-family:'Noto Serif TC',serif; font-size:30px; font-weight:600; line-height:1; margin-bottom:4px; }
+.pillar-branch { font-family:'Noto Serif TC',serif; font-size:26px; font-weight:300; line-height:1; padding-top:8px; border-top:1px solid var(--border); margin-top:6px; }
+.pillar-el { font-size:10px; letter-spacing:1px; margin-top:9px; padding:3px 8px; border-radius:20px; display:inline-block; }
+.pillar-yy { font-size:10px; color:var(--text-soft); margin-top:4px; letter-spacing:1px; }
+
+.wuxing-card { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow); padding:26px 28px; }
+.wuxing-row { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.wuxing-row:last-child { margin-bottom:0; }
+.wx-name { font-family:'Noto Serif TC',serif; font-size:18px; width:22px; text-align:center; }
+.wx-bar-bg { flex:1; height:8px; background:var(--bg); border-radius:4px; overflow:hidden; border:1px solid var(--border); }
+.wx-bar-fill { height:100%; border-radius:4px; width:0%; transition:width 1s ease .3s; }
+.wx-count { font-size:12px; color:var(--text-soft); width:72px; text-align:right; letter-spacing:.5px; }
+
+.daymaster-card { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow); padding:28px; display:flex; gap:24px; align-items:flex-start; }
+.daymaster-char { font-family:'Noto Serif TC',serif; font-size:60px; font-weight:600; line-height:1; flex-shrink:0; }
+.daymaster-info { flex:1; }
+.daymaster-title { font-size:12px; letter-spacing:2px; margin-bottom:10px; color:var(--text-soft); }
+.keyword-row { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+.keyword { font-size:12px; letter-spacing:1px; padding:4px 12px; border-radius:20px; background:var(--bg); border:1px solid var(--border); color:var(--text); }
+.daymaster-desc { font-size:13px; line-height:1.9; color:var(--text-soft); }
+
+.analysis-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.analysis-card { background:var(--surface); border-radius:14px; box-shadow:var(--shadow); padding:20px; }
+.analysis-icon { font-size:20px; margin-bottom:8px; }
+.analysis-name { font-family:'Noto Serif TC',serif; font-size:15px; letter-spacing:2px; margin-bottom:10px; font-weight:600; }
+.score-dots { display:flex; gap:4px; margin-bottom:12px; }
+.dot { width:7px; height:7px; border-radius:50%; background:var(--border); }
+.dot.on { background:var(--accent); }
+.analysis-text { font-size:12px; line-height:1.85; color:var(--text-soft); }
+.analysis-tip { margin-top:10px; padding:8px 10px; background:#FBF5F0; border-left:2px solid var(--accent-light); border-radius:0 6px 6px 0; font-size:11px; color:var(--accent); line-height:1.7; }
+
+.crystal-list { display:flex; flex-direction:column; gap:14px; }
+.crystal-card { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; display:flex; gap:18px; align-items:flex-start; transition:box-shadow .2s; }
+.crystal-card:hover { box-shadow:var(--shadow-lg); }
+.crystal-orb { width:52px; height:52px; border-radius:50%; flex-shrink:0; box-shadow:0 4px 16px rgba(0,0,0,0.15),inset 0 -3px 8px rgba(0,0,0,0.1),inset 0 2px 4px rgba(255,255,255,0.4); }
+.crystal-info { flex:1; }
+.crystal-name-row { display:flex; align-items:baseline; gap:8px; margin-bottom:4px; }
+.crystal-zh { font-family:'Noto Serif TC',serif; font-size:17px; font-weight:600; letter-spacing:1px; }
+.crystal-en { font-size:11px; color:var(--text-soft); letter-spacing:1px; }
+.crystal-badge { font-size:10px; padding:2px 8px; border-radius:20px; background:#FBF5F0; color:var(--accent); border:1px solid var(--accent-light); letter-spacing:1px; margin-bottom:8px; display:inline-block; }
+.crystal-desc { font-size:12.5px; line-height:1.85; color:var(--text-soft); }
+
+.contact-box { background:linear-gradient(135deg,#FBF5F0 0%,#F0EAE2 100%); border-radius:var(--radius); padding:30px; text-align:center; border:1px solid var(--accent-light); }
+.contact-box h3 { font-family:'Noto Serif TC',serif; font-size:17px; letter-spacing:2px; margin-bottom:8px; }
+.contact-box p { font-size:13px; color:var(--text-soft); line-height:1.9; }
+.contact-link { display:inline-block; margin-top:16px; padding:12px 28px; background:var(--accent); color:white; border-radius:10px; font-size:13px; letter-spacing:2px; text-decoration:none; transition:background .2s; }
+.contact-link:hover { background:#C8706A; }
+
+.btn-reset { display:block; margin:32px auto 0; padding:12px 32px; border:1.5px solid var(--border); background:transparent; color:var(--text-soft); border-radius:10px; font-family:'Noto Sans TC',sans-serif; font-size:13px; letter-spacing:2px; cursor:pointer; transition:all .2s; }
+.btn-reset:hover { border-color:var(--accent); color:var(--accent); }
+
+footer { text-align:center; padding:32px 20px; font-size:11px; color:var(--text-soft); letter-spacing:2px; opacity:.5; border-top:1px solid var(--border); margin-top:20px; }
+
+@media(max-width:420px){
+  .form-card{padding:24px 18px}
+  .pillars-grid{gap:7px}
+  .pillar-stem{font-size:24px}
+  .pillar-branch{font-size:20px}
+  .analysis-grid{grid-template-columns:1fr}
+  .daymaster-card{flex-direction:column;gap:12px}
+  .daymaster-char{font-size:48px}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">命<span>晶</span></div>
+  <div class="tagline">八字命盤 · 五行水晶推算</div>
+</header>
+
+<section class="form-section">
+  <div class="form-card">
+    <h2>輸入生辰</h2>
+    <div class="form-row">
+      <div class="form-group"><label>年</label><select id="sel-year"></select></div>
+      <div class="form-group"><label>月</label><select id="sel-month"></select></div>
+      <div class="form-group"><label>日</label><select id="sel-day"></select></div>
+    </div>
+    <div class="form-row single">
+      <div class="form-group"><label>出生時辰</label><select id="sel-hour"></select></div>
+    </div>
+    <button class="btn-calc" id="btn-calc">推算我的命盤</button>
+  </div>
+</section>
+
+<section id="results"></section>
+
+<footer>
+  八字推算結果僅供參考 · 實際準確性依命理師專業判斷<br>
+  命晶 © 2025
+</footer>
+
+<script>
+const STEMS   = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const BRANCHES= ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const S_EL    = ['木','木','火','火','土','土','金','金','水','水'];
+const B_EL    = ['水','土','木','木','土','火','火','土','金','金','土','水'];
+const S_YY    = ['陽','陰','陽','陰','陽','陰','陽','陰','陽','陰'];
+
+const EL_COLOR= {木:'#88B083',火:'#D47B6A',土:'#C5A265',金:'#A8B0B8',水:'#6A92B5'};
+const EL_LIGHT= {木:'#EAF4E8',火:'#FAE8E4',土:'#F5ECD8',金:'#EEF0F2',水:'#E0EBF4'};
+
+const SHICHEN = [
+  ['子時（23:00–01:00）',0],['丑時（01:00–03:00）',1],['寅時（03:00–05:00）',2],
+  ['卯時（05:00–07:00）',3],['辰時（07:00–09:00）',4],['巳時（09:00–11:00）',5],
+  ['午時（11:00–13:00）',6],['未時（13:00–15:00）',7],['申時（15:00–17:00）',8],
+  ['酉時（17:00–19:00）',9],['戌時（19:00–21:00）',10],['亥時（21:00–23:00）',11],
+  ['不確定',-1]
+];
+
+const DM_DATA = {
+  甲:{el:'木',kw:['開拓進取','領導氣質','目標明確'],desc:'甲木如直立的大樹，你有天生的領導力與遠見，目標感強烈，不喜歡受到束縛。渴望自由成長，適合走在前方開路的角色。'},
+  乙:{el:'木',kw:['溫柔韌性','善於溝通','藝術感強'],desc:'乙木如柔韌的藤蔓，你有出色的適應力與溝通技巧，溫柔中帶有堅持。善於在複雜環境中找到方向，藝術與美感天賦豐富。'},
+  丙:{el:'火',kw:['熱情開朗','光明磊落','行動力強'],desc:'丙火如正午的太陽，你的熱情與正能量能溫暖身邊所有人。個性光明磊落，直率真誠，天生的行動派，想到就去做。'},
+  丁:{el:'火',kw:['細膩溫暖','藝術天賦','直覺敏銳'],desc:'丁火如溫暖的燭光，你細膩、溫暖且充滿藝術感。對美有獨到品味，直覺力強，能在細節中發現別人看不見的美好。'},
+  戊:{el:'土',kw:['穩重可靠','包容大度','守護者'],desc:'戊土如寬廣的高山，你是身邊所有人最可靠的依靠。個性穩重包容，有強烈責任心，天生的守護者，讓人感到安心。'},
+  己:{el:'土',kw:['細心務實','養育者','觀察力佳'],desc:'己土如肥沃的田地，你務實細心，善於照顧身邊的人。觀察力敏銳，默默付出，是讓周遭環境欣欣向榮的力量。'},
+  庚:{el:'金',kw:['剛毅果斷','執行力強','意志堅定'],desc:'庚金如精鋼烈鐵，你意志堅定、執行力強，說到做到。個性直接不拐彎，在需要承擔責任的時刻最能發揮，是值得信賴的夥伴。'},
+  辛:{el:'金',kw:['精緻完美','敏銳直覺','優雅氣質'],desc:'辛金如精雕細琢的珠寶，你對品質有極高要求，追求精緻與完美。直覺敏銳，能一眼看穿問題核心，有讓人印象深刻的獨特氣質。'},
+  壬:{el:'水',kw:['智慧靈活','遠見卓識','創意豐富'],desc:'壬水如奔湧的大河，你有寬廣的視野與靈活思維，遇到困難總能找到出路。創意豐富，善於從大局思考，是天生的策略家。'},
+  癸:{el:'水',kw:['直覺豐富','溫潤滋養','感情細膩'],desc:'癸水如滋養萬物的甘霖，你情感細膩，直覺豐富，有很強的同理心。善解人意，能感受到別人說不出口的情緒。'},
+};
+
+const ANALYSIS = {
+  木:{
+    career:{s:5,t:'目標感強、衝勁足，特別適合需要創意與獨立判斷的領域。傷官旺者口才與創意是最大資產。',tip:'適合創業或自由工作，注意與上司的溝通方式'},
+    love:  {s:4,t:'感情熱情直接，容易吸引異性。感情路可能有起伏，需要找欣賞你才華的伴侶。',tip:'找一個心胸寬大、有自信的另一半最合適'},
+    health:{s:3,t:'肝膽系統需要留意，金旺剋木者要注意情緒管理。水氣弱者重視睡眠品質。',tip:'避免熬夜，養肝護腎是重點'},
+    luck:  {s:4,t:'走火運或木運時如魚得水，爆發力與創造力全開。今年適合開創新事物，把握機遇。',tip:'適合大膽出手，但簽約前仔細審閱條款'},
+  },
+  火:{
+    career:{s:4,t:'熱情開朗，善於激勵他人，天生的領袖氣質。在需要溝通與表達的職位最能發光。',tip:'注意別因衝動而做出倉促決策'},
+    love:  {s:5,t:'感情熱烈投入，魅力十足，容易讓人印象深刻。真誠直率，戀愛中全力以赴。',tip:'保持自己的熱度，也給對方一點空間'},
+    health:{s:3,t:'心血管與視力需要留意。火旺者情緒起伏大，需注意情緒管理避免過度消耗。',tip:'規律休息，避免過度興奮或焦慮'},
+    luck:  {s:4,t:'走木運或火運時運勢最旺，貴人多在異性或長輩中。行動力強的時期，適合積極出擊。',tip:'把握有貴人相助的時機，主動建立人脈'},
+  },
+  土:{
+    career:{s:4,t:'穩重可靠，是組織的中堅力量。擅長管理與協調，在需要長期耕耘的領域最能發揮。',tip:'發揮穩健特質，成功往往在積累之後顯現'},
+    love:  {s:3,t:'感情上忠誠穩定，一旦認定就會全力守護。木氣弱者可能在感情中較為被動。',tip:'學會主動表達情感，讓對方感受到你的心意'},
+    health:{s:4,t:'腸胃系統是重點保養部位。土重者注意不要過度操勞，要留給自己喘息的空間。',tip:'飲食規律，避免暴飲暴食'},
+    luck:  {s:3,t:'走火運時整體運勢提升明顯，貴人多在長輩或上司中。大器晚成型，30歲後運勢持續上揚。',tip:'耐心耕耘，避免急功近利'},
+  },
+  金:{
+    career:{s:4,t:'執行力強、意志堅定，說到做到。在需要獨立承擔責任的職位表現出色，貴人運佳。壬水傷官出現代表才華是最大資產。',tip:'土多易被雜務埋沒，需主動設立工作邊界讓才能被看見'},
+    love:  {s:3,t:'對感情認真忠誠，但不擅長主動表達。辰辰自刑者容易在感情中過度思考，緣份慢熟。',tip:'遇到對的人時值得放下防線，勇敢說出心意'},
+    health:{s:4,t:'肺部與呼吸系統需要留意，土重者腸胃也是弱點。情緒容易積壓，需要找到適合的出口。',tip:'規律運動是最好的疏通方式，有助金氣流通'},
+    luck:  {s:4,t:'大器晚成型，走水運或木運時財運與事業運最旺。貴人多在長輩或異性中，主動維繫人脈是加分關鍵。',tip:'謹慎決策，把握貴人運'},
+  },
+  水:{
+    career:{s:5,t:'智慧靈活，思維敏銳，適合需要策略與創意的領域。洞察力強，能看到別人看不見的機會。',tip:'土多壓水者，注意不要被環境限制了思維'},
+    love:  {s:4,t:'感情細膩，善解人意，容易讓人感到被理解與接納。感情上付出多，需要找懂得珍惜的另一半。',tip:'學會適當表達自己的需求，感情才能更平衡'},
+    health:{s:3,t:'腎臟與泌尿系統是重點。土旺剋水者要特別注意水分補充與睡眠品質。',tip:'保持充足水分，避免過度操勞'},
+    luck:  {s:4,t:'走木運時才華最能被發揮，貴人多在年輕一代中。直覺型，多相信自己的第六感做決定。',tip:'多傾聽內心直覺，往往比分析更準確'},
+  },
+};
+
+const CRYSTALS = {
+  水:[
+    {name:'紫水晶',en:'Amethyst',color:'#9B59B6',badge:'補水 · 安神',desc:'補水安神，改善過度思慮與自我消耗，靈性守護石。讓心靈得到平靜與沉澱，增強直覺與感情緣份。',cnt:'4–6 顆 主石'},
+    {name:'海藍寶',en:'Aquamarine',color:'#7CB9E8',badge:'補水 · 財運',desc:'補水氣助財運，清澈透明讓思路清晰，增強貴人緣。適合需要補足智慧與財星能量的你。',cnt:'3–4 顆'},
+    {name:'月光石',en:'Moonstone',color:'#C8D8E8',badge:'補水 · 感情',desc:'補水平衡陰陽，助感情緣份，月光般柔和溫潤，帶來女性魅力與直覺力。',cnt:'2–3 顆'},
+    {name:'藍紋瑪瑙',en:'Blue Lace Agate',color:'#B0C8DE',badge:'補水 · 溝通',desc:'穩定情緒補水氣，帶來平靜與溝通力，適合需要對外表達或需要安定感的你。',cnt:'3–4 顆'},
+  ],
+  木:[
+    {name:'綠幽靈',en:'Green Phantom',color:'#52B788',badge:'補木 · 財運',desc:'補木護財，事業財運加持，蘊含大自然的生命力，讓積極向上的能量不斷湧現。',cnt:'4–6 顆 主石'},
+    {name:'東陵玉',en:'Green Aventurine',color:'#7AC99A',badge:'補木 · 幸運',desc:'幸運石補木氣，招財引好機遇，被稱為冒險家的石頭，在新事物上帶來好運。',cnt:'3–4 顆'},
+    {name:'橄欖石',en:'Peridot',color:'#8FBC8F',badge:'補木 · 新生',desc:'補木化壓，釋放負面情緒帶來新生，適合正在經歷轉變或想開啟新篇章的你。',cnt:'2–3 顆'},
+  ],
+  火:[
+    {name:'石榴石',en:'Garnet',color:'#C0392B',badge:'補火 · 熱情',desc:'補火活血，增強熱情與行動力，愛情守護石，為感情帶來溫度與激情。',cnt:'2–3 顆'},
+    {name:'紅碧璽',en:'Red Tourmaline',color:'#E74C3C',badge:'補火 · 活力',desc:'補火提升能量，帶來自信與活力，驅散負能量，讓你在人群中散發自信光彩。',cnt:'2–3 顆'},
+    {name:'太陽石',en:'Sunstone',color:'#F7A440',badge:'補火 · 喜悅',desc:'如陽光般溫暖補火，帶來喜悅與正能量，讓每一天都充滿光亮與希望。',cnt:'2–3 顆'},
+  ],
+  金:[
+    {name:'白水晶',en:'Clear Quartz',color:'#DDE6ED',badge:'補金 · 淨化',desc:'萬能淨化石補金氣，放大其他水晶的能量，讓整串手鏈的效果加乘倍增。',cnt:'4–6 顆 隔珠'},
+    {name:'拉長石',en:'Labradorite',color:'#5B7FA6',badge:'補金 · 保護',desc:'神秘的極光石補金護氣場，增強直覺與洞察力，像一道看不見的保護罩。',cnt:'3–4 顆'},
+  ],
+  土:[
+    {name:'黃水晶',en:'Citrine',color:'#F1C40F',badge:'補土 · 財富',desc:'財富石補土穩氣，帶來財運與正能量，陽光般明亮的能量讓財富自然聚集。',cnt:'3–4 顆'},
+    {name:'虎眼石',en:'Tiger Eye',color:'#C8941A',badge:'補土 · 勇氣',desc:'補土增力，帶來勇氣與決斷力，讓你在關鍵時刻果斷出手，不再猶豫。',cnt:'2–3 顆'},
+    {name:'茶晶',en:'Smoky Quartz',color:'#8B7355',badge:'補土 · 穩定',desc:'接地氣補土，消除焦慮穩定氣場，幫助你在忙碌生活中保持內心的平靜。',cnt:'2–3 顆'},
+  ],
+};
+
+// ── INIT ──
+function initSelects() {
+  const sy = document.getElementById('sel-year');
+  const sm = document.getElementById('sel-month');
+  const sd = document.getElementById('sel-day');
+  const sh = document.getElementById('sel-hour');
+
+  for (let y = 1940; y <= 2010; y++) {
+    const o = document.createElement('option');
+    o.value = y; o.textContent = y + ' 年';
+    if (y === 1990) o.selected = true;
+    sy.appendChild(o);
+  }
+  for (let m = 1; m <= 12; m++) {
+    const o = document.createElement('option');
+    o.value = m; o.textContent = m + ' 月';
+    if (m === 1) o.selected = true;
+    sm.appendChild(o);
+  }
+  for (let d = 1; d <= 31; d++) {
+    const o = document.createElement('option');
+    o.value = d; o.textContent = d + ' 日';
+    if (d === 1) o.selected = true;
+    sd.appendChild(o);
+  }
+  SHICHEN.forEach(([label], i) => {
+    const o = document.createElement('option');
+    o.value = i; o.textContent = label;
+    sh.appendChild(o);
+  });
+
+  sy.addEventListener('change', updateDays);
+  sm.addEventListener('change', updateDays);
+  document.getElementById('btn-calc').addEventListener('click', calculate);
+}
+
+function updateDays() {
+  const y = +document.getElementById('sel-year').value;
+  const m = +document.getElementById('sel-month').value;
+  const sd = document.getElementById('sel-day');
+  const cur = +sd.value;
+  const max = new Date(y, m, 0).getDate();
+  sd.textContent = '';
+  for (let d = 1; d <= max; d++) {
+    const o = document.createElement('option');
+    o.value = d; o.textContent = d + ' 日';
+    if (d === Math.min(cur, max)) o.selected = true;
+    sd.appendChild(o);
+  }
+}
+
+// ── BAZI CALC ──
+function getMonthBranch(month, day) {
+  const terms = [
+    {m:1,d:6,b:1},{m:2,d:4,b:2},{m:3,d:6,b:3},{m:4,d:5,b:4},
+    {m:5,d:6,b:5},{m:6,d:6,b:6},{m:7,d:7,b:7},{m:8,d:7,b:8},
+    {m:9,d:8,b:9},{m:10,d:8,b:10},{m:11,d:7,b:11},{m:12,d:7,b:0},
+  ];
+  let branch = 1;
+  for (const t of terms) {
+    if (month > t.m || (month === t.m && day >= t.d)) branch = t.b;
+  }
+  return branch;
+}
+
+function calcBazi(year, month, day, hourIdx) {
+  const yStem   = ((year - 4) % 10 + 10) % 10;
+  const yBranch = ((year - 4) % 12 + 12) % 12;
+
+  const ref  = new Date(2000, 0, 1);
+  const tgt  = new Date(year, month - 1, day);
+  const diff = Math.round((tgt - ref) / 86400000);
+  const dStem   = ((6 + diff) % 10 + 10) % 10;
+  const dBranch = ((4 + diff) % 12 + 12) % 12;
+
+  const mBranch = getMonthBranch(month, day);
+  const mStartMap = [2,4,6,8,0,2,4,6,8,0];
+  const mStem = (mStartMap[yStem] + ((mBranch - 2 + 12) % 12)) % 10;
+
+  const [, hBranchRaw] = SHICHEN[hourIdx] || ['', -1];
+  let hStem = 0, hBranch = 0;
+  const hasHour = hBranchRaw >= 0;
+  if (hasHour) {
+    hBranch = hBranchRaw;
+    const hStartMap = [0,2,4,6,8,0,2,4,6,8];
+    hStem = (hStartMap[dStem] + hBranch) % 10;
+  }
+
+  const pillars = [
+    {label:'年柱', stem:yStem, branch:yBranch},
+    {label:'月柱', stem:mStem, branch:mBranch},
+    {label:'日柱', stem:dStem, branch:dBranch, isDay:true},
+  ];
+  if (hasHour) pillars.push({label:'時柱', stem:hStem, branch:hBranch});
+
+  const wx = {木:0,火:0,土:0,金:0,水:0};
+  pillars.forEach(p => { wx[S_EL[p.stem]]++; wx[B_EL[p.branch]]++; });
+
+  return { pillars, wx, dmStem: STEMS[dStem], dmEl: S_EL[dStem] };
+}
+
+// ── CRYSTAL RECS ──
+function getCrystals(wx, dmEl) {
+  const needsMap = {金:['水','木','火'],木:['水','火','木'],水:['木','金','水'],火:['木','土','火'],土:['火','木','土']};
+  const pri = needsMap[dmEl] || ['水','木','火'];
+  const scores = {};
+  Object.keys(wx).forEach(el => {
+    const c = wx[el];
+    scores[el] = (c===0?3:c===1?2:c===2?1:0) + (pri.includes(el)?2:0);
+  });
+  const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const picks = [];
+  for (const [el] of sorted) {
+    if (picks.length >= 3) break;
+    const pool = CRYSTALS[el] || [];
+    const c = pool.find(x => !picks.find(p=>p.name===x.name));
+    if (c) picks.push({...c, el});
+  }
+  if (picks.length < 3) {
+    for (const [el] of sorted) {
+      if (picks.length >= 3) break;
+      for (const c of (CRYSTALS[el]||[])) {
+        if (picks.length >= 3) break;
+        if (!picks.find(p=>p.name===c.name)) picks.push({...c, el});
+      }
+    }
+  }
+  return picks.slice(0,3);
+}
+
+// ── DOM HELPERS (safe) ──
+function el(tag, attrs, text) {
+  const e = document.createElement(tag);
+  if (attrs) Object.entries(attrs).forEach(([k,v])=>{
+    if (k==='class') e.className=v;
+    else if (k==='style') e.style.cssText=v;
+    else e.setAttribute(k,v);
+  });
+  if (text!==undefined) e.textContent=text;
+  return e;
+}
+function div(cls, ...children) {
+  const d = el('div',{'class':cls});
+  children.forEach(c=>{ if(c) d.appendChild(typeof c==='string'?document.createTextNode(c):c); });
+  return d;
+}
+
+// ── RENDER ──
+function renderPillars(pillars) {
+  const wrap = div('pillars-grid');
+  pillars.forEach(p => {
+    const stemChar = STEMS[p.stem];
+    const branchChar = BRANCHES[p.branch];
+    const stemEl = S_EL[p.stem];
+    const branchEl = B_EL[p.branch];
+    const col = EL_COLOR[stemEl];
+    const lite = EL_LIGHT[stemEl];
+
+    const card = div('pillar-card' + (p.isDay?' is-day':''));
+    if (p.isDay) card.appendChild(el('div',{'class':'star-badge'},'日主'));
+    card.appendChild(el('div',{'class':'pillar-label'},p.label));
+    card.appendChild(el('div',{'class':'pillar-stem','style':'color:'+col},stemChar));
+    card.appendChild(el('div',{'class':'pillar-branch'},branchChar));
+    card.appendChild(el('div',{'class':'pillar-el','style':'background:'+lite+';color:'+col},stemEl));
+    card.appendChild(el('div',{'class':'pillar-yy'},S_YY[p.stem]+branchEl));
+    wrap.appendChild(card);
+  });
+  return wrap;
+}
+
+function renderWuxing(wx, total) {
+  const card = div('wuxing-card');
+  ['木','火','土','金','水'].forEach(name => {
+    const cnt = wx[name]||0;
+    const pct = total>0?Math.round(cnt/total*100):0;
+    const col = EL_COLOR[name];
+    const row = div('wuxing-row');
+    row.appendChild(el('div',{'class':'wx-name','style':'color:'+col},name));
+    const bg = div('wx-bar-bg');
+    const fill = el('div',{'class':'wx-bar-fill','style':'background:'+col});
+    fill.dataset.w = pct+'%';
+    bg.appendChild(fill);
+    row.appendChild(bg);
+    row.appendChild(el('div',{'class':'wx-count'},cnt+' 個 · '+pct+'%'));
+    card.appendChild(row);
+  });
+  return card;
+}
+
+function renderDayMaster(stemChar, dmEl) {
+  const data = DM_DATA[stemChar];
+  if (!data) return null;
+  const col = EL_COLOR[dmEl];
+  const card = div('daymaster-card');
+  card.appendChild(el('div',{'class':'daymaster-char','style':'color:'+col},stemChar));
+  const info = div('daymaster-info');
+  info.appendChild(el('div',{'class':'daymaster-title'},'日主 '+stemChar+dmEl+' · '+S_YY[STEMS.indexOf(stemChar)]+dmEl));
+  const krow = div('keyword-row');
+  data.kw.forEach(k=>krow.appendChild(el('span',{'class':'keyword'},k)));
+  info.appendChild(krow);
+  info.appendChild(el('div',{'class':'daymaster-desc'},data.desc));
+  card.appendChild(info);
+  return card;
+}
+
+function renderAnalysis(dmEl) {
+  const data = ANALYSIS[dmEl]||ANALYSIS['金'];
+  const dims = [{k:'career',n:'事業',i:'⚔️'},{k:'love',n:'感情',i:'🌸'},{k:'health',n:'健康',i:'🌿'},{k:'luck',n:'運勢',i:'✦'}];
+  const grid = div('analysis-grid');
+  dims.forEach(d=>{
+    const info = data[d.k];
+    const card = div('analysis-card');
+    card.appendChild(el('div',{'class':'analysis-icon'},d.i));
+    card.appendChild(el('div',{'class':'analysis-name'},d.n));
+    const dots = div('score-dots');
+    for(let i=0;i<5;i++) dots.appendChild(el('div',{'class':'dot'+(i<info.s?' on':'')}));
+    card.appendChild(dots);
+    card.appendChild(el('div',{'class':'analysis-text'},info.t));
+    card.appendChild(el('div',{'class':'analysis-tip'},info.tip));
+    grid.appendChild(card);
+  });
+  return grid;
+}
+
+function lighten(hex) {
+  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  return 'rgb('+Math.min(r+60,255)+','+Math.min(g+60,255)+','+Math.min(b+60,255)+')';
+}
+
+function renderCrystals(crystals) {
+  const list = div('crystal-list');
+  crystals.forEach((c,i)=>{
+    const card = div('crystal-card');
+    const orb = el('div',{'class':'crystal-orb','style':'background:radial-gradient(circle at 35% 30%,'+lighten(c.color)+','+c.color+')'});
+    const info = div('crystal-info');
+    const nameRow = div('crystal-name-row');
+    nameRow.appendChild(el('span',{'class':'crystal-zh'},c.name));
+    nameRow.appendChild(el('span',{'class':'crystal-en'},c.en));
+    info.appendChild(nameRow);
+    info.appendChild(el('div',{'class':'crystal-badge'},(i===0?'✦ 主石 · ':'')+c.cnt+' · '+c.badge));
+    info.appendChild(el('div',{'class':'crystal-desc'},c.desc));
+    card.appendChild(orb);
+    card.appendChild(info);
+    list.appendChild(card);
+  });
+  return list;
+}
+
+function renderContact() {
+  const box = div('contact-box');
+  box.appendChild(el('h3',null,'讓水晶能量陪伴你'));
+  box.appendChild(el('p',null,'根據你的八字命盤量身推薦的水晶搭配，\n我們提供專業訂製服務，手工穿製每一顆水晶。'));
+  const a = el('a',{'class':'contact-link','href':'#'},'聯繫我們諮詢');
+  box.appendChild(a);
+  return box;
+}
+
+function sectionTitle(text) {
+  const t = el('div',{'class':'section-title'});
+  t.textContent = text;
+  return t;
+}
+
+// ── CALCULATE ──
+function calculate() {
+  const year    = +document.getElementById('sel-year').value;
+  const month   = +document.getElementById('sel-month').value;
+  const day     = +document.getElementById('sel-day').value;
+  const hourIdx = +document.getElementById('sel-hour').value;
+
+  const {pillars, wx, dmStem, dmEl} = calcBazi(year, month, day, hourIdx);
+  const total = Object.values(wx).reduce((a,b)=>a+b,0);
+  const crystals = getCrystals(wx, dmEl);
+
+  const res = document.getElementById('results');
+  res.textContent = '';
+
+  res.appendChild(sectionTitle('四 柱 命 盤'));
+  res.appendChild(renderPillars(pillars));
+  res.appendChild(sectionTitle('五 行 分 佈'));
+  res.appendChild(renderWuxing(wx, total));
+  res.appendChild(sectionTitle('日 主 特 質'));
+  const dm = renderDayMaster(dmStem, dmEl);
+  if (dm) res.appendChild(dm);
+  res.appendChild(sectionTitle('四 大 面 向'));
+  res.appendChild(renderAnalysis(dmEl));
+  res.appendChild(sectionTitle('水 晶 推 薦'));
+  res.appendChild(renderCrystals(crystals));
+  res.appendChild(sectionTitle('訂製手鏈'));
+  res.appendChild(renderContact());
+
+  const resetBtn = el('button',{'class':'btn-reset'},'重新推算');
+  resetBtn.addEventListener('click', reset);
+  res.appendChild(resetBtn);
+
+  res.style.display = 'block';
+  setTimeout(()=>{
+    document.querySelectorAll('.wx-bar-fill').forEach(f=>{f.style.width=f.dataset.w;});
+  }, 120);
+  res.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function reset() {
+  const res = document.getElementById('results');
+  res.style.display='none';
+  res.textContent='';
+  document.querySelector('.form-section').scrollIntoView({behavior:'smooth'});
+}
+
+initSelects();
+</script>
+</body>
+</html>
