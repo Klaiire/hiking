@@ -103,6 +103,14 @@ select:focus { outline:none; border-color:var(--accent); }
 .contact-link { display:inline-block; margin-top:16px; padding:12px 28px; background:var(--accent); color:white; border-radius:10px; font-size:13px; letter-spacing:2px; text-decoration:none; transition:background .2s; }
 .contact-link:hover { background:#C8706A; }
 
+.xi-banner { display:flex; align-items:center; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
+.xi-strength { font-size:11px; padding:4px 12px; border-radius:20px; letter-spacing:2px; font-weight:500; }
+.xi-strength.strong { background:#FFF0E8; color:#C8704A; border:1px solid #F0C4A8; }
+.xi-strength.weak   { background:#E8F0FF; color:#5A78B5; border:1px solid #B0C4E8; }
+.xi-label { font-size:12px; color:var(--text-soft); letter-spacing:1px; }
+.crystal-note { margin-top:16px; padding:16px 18px; background:#FDFAF6; border:1px solid var(--border); border-radius:12px; }
+.crystal-note p { font-size:12px; line-height:1.9; color:var(--text-soft); margin-bottom:6px; }
+.crystal-note p:last-child { margin-bottom:0; color:#B09080; font-style:italic; }
 .btn-reset { display:block; margin:32px auto 0; padding:12px 32px; border:1.5px solid var(--border); background:transparent; color:var(--text-soft); border-radius:10px; font-family:'Noto Sans TC',sans-serif; font-size:13px; letter-spacing:2px; cursor:pointer; transition:all .2s; }
 .btn-reset:hover { border-color:var(--accent); color:var(--accent); }
 
@@ -338,36 +346,65 @@ function calcBazi(year, month, day, hourIdx) {
   const wx = {木:0,火:0,土:0,金:0,水:0};
   pillars.forEach(p => { wx[S_EL[p.stem]]++; wx[B_EL[p.branch]]++; });
 
-  return { pillars, wx, dmStem: STEMS[dStem], dmEl: S_EL[dStem] };
+  return { pillars, wx, mBranch, dmStem: STEMS[dStem], dmEl: S_EL[dStem] };
+}
+
+// ── 喜用神 LOGIC ──
+function getDMStrength(dmEl, mBranch, wx) {
+  const monthEl = B_EL[mBranch];
+  const generatedBy = {木:'水',火:'木',土:'火',金:'土',水:'金'};
+  const monthIsSame = monthEl === dmEl;
+  const monthGenerates = generatedBy[dmEl] === monthEl;
+  const sameCount = wx[dmEl] || 0;
+  const genCount  = wx[generatedBy[dmEl]] || 0;
+  const score = (monthIsSame?2:0) + (monthGenerates?1:0) + sameCount + genCount * 0.5;
+  return score >= 4 ? '旺' : '弱';
+}
+
+function getXiYongShen(dmEl, strength) {
+  const table = {
+    旺: { 木:{xi:['火','土','金'],ji:['水','木']}, 火:{xi:['土','金','水'],ji:['木','火']},
+          土:{xi:['金','水','木'],ji:['火','土']}, 金:{xi:['水','木','火'],ji:['土','金']},
+          水:{xi:['木','火','土'],ji:['金','水']} },
+    弱: { 木:{xi:['水','木'],ji:['土','金']},     火:{xi:['木','火'],ji:['金','水']},
+          土:{xi:['火','土'],ji:['水','木']},     金:{xi:['土','金'],ji:['木','火']},
+          水:{xi:['金','水'],ji:['土','火']} },
+  };
+  return (table[strength]||table['弱'])[dmEl] || {xi:['水'],ji:[]};
 }
 
 // ── CRYSTAL RECS ──
-function getCrystals(wx, dmEl) {
-  const needsMap = {金:['水','木','火'],木:['水','火','木'],水:['木','金','水'],火:['木','土','火'],土:['火','木','土']};
-  const pri = needsMap[dmEl] || ['水','木','火'];
+function getCrystals(wx, dmEl, mBranch) {
+  const strength = getDMStrength(dmEl, mBranch, wx);
+  const {xi} = getXiYongShen(dmEl, strength);
+
+  // Score: 喜神 elements get base +3, deficient elements get bonus
   const scores = {};
-  Object.keys(wx).forEach(el => {
-    const c = wx[el];
-    scores[el] = (c===0?3:c===1?2:c===2?1:0) + (pri.includes(el)?2:0);
+  Object.keys(wx).forEach(elName => {
+    const cnt = wx[elName];
+    const deficit = cnt===0?3 : cnt===1?2 : cnt===2?1 : 0;
+    const isXi = xi.includes(elName) ? 3 : 0;
+    scores[elName] = isXi + deficit;
   });
+
   const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
   const picks = [];
-  for (const [el] of sorted) {
+  for (const [elName] of sorted) {
     if (picks.length >= 3) break;
-    const pool = CRYSTALS[el] || [];
+    const pool = CRYSTALS[elName] || [];
     const c = pool.find(x => !picks.find(p=>p.name===x.name));
-    if (c) picks.push({...c, el});
+    if (c) picks.push({...c, el:elName});
   }
   if (picks.length < 3) {
-    for (const [el] of sorted) {
+    for (const [elName] of sorted) {
       if (picks.length >= 3) break;
-      for (const c of (CRYSTALS[el]||[])) {
+      for (const c of (CRYSTALS[elName]||[])) {
         if (picks.length >= 3) break;
-        if (!picks.find(p=>p.name===c.name)) picks.push({...c, el});
+        if (!picks.find(p=>p.name===c.name)) picks.push({...c, el:elName});
       }
     }
   }
-  return picks.slice(0,3);
+  return { crystals: picks.slice(0,3), strength, xi };
 }
 
 // ── DOM HELPERS (safe) ──
@@ -469,7 +506,17 @@ function lighten(hex) {
   return 'rgb('+Math.min(r+60,255)+','+Math.min(g+60,255)+','+Math.min(b+60,255)+')';
 }
 
-function renderCrystals(crystals) {
+function renderCrystals(crystals, strength, xi) {
+  const wrap = div('');
+
+  // 喜用神 info banner
+  const banner = div('xi-banner');
+  const strengthLabel = el('span',{'class':'xi-strength'+(strength==='旺'?' strong':' weak')}, '日主'+strength);
+  const xiLabel = el('span',{'class':'xi-label'}, '喜用神：' + xi.join(' · '));
+  banner.appendChild(strengthLabel);
+  banner.appendChild(xiLabel);
+  wrap.appendChild(banner);
+
   const list = div('crystal-list');
   crystals.forEach((c,i)=>{
     const card = div('crystal-card');
@@ -485,7 +532,15 @@ function renderCrystals(crystals) {
     card.appendChild(info);
     list.appendChild(card);
   });
-  return list;
+  wrap.appendChild(list);
+
+  // 說明文字
+  const note = div('crystal-note');
+  note.appendChild(el('p',null,'以上推薦以八字「喜用神」理論為依據：先判斷日主旺弱，再找出最能平衡命盤能量的五行元素，最後對應相應屬性的水晶。'));
+  note.appendChild(el('p',null,'每個命盤的細節因人而異，建議親洽命理師做進一步分析，或至門市親手感受水晶的緣份——有時直覺才是最準的。'));
+  wrap.appendChild(note);
+
+  return wrap;
 }
 
 function renderContact() {
@@ -510,9 +565,9 @@ function calculate() {
   const day     = +document.getElementById('sel-day').value;
   const hourIdx = +document.getElementById('sel-hour').value;
 
-  const {pillars, wx, dmStem, dmEl} = calcBazi(year, month, day, hourIdx);
+  const {pillars, wx, mBranch, dmStem, dmEl} = calcBazi(year, month, day, hourIdx);
   const total = Object.values(wx).reduce((a,b)=>a+b,0);
-  const crystals = getCrystals(wx, dmEl);
+  const {crystals, strength, xi} = getCrystals(wx, dmEl, mBranch);
 
   const res = document.getElementById('results');
   res.textContent = '';
@@ -527,7 +582,7 @@ function calculate() {
   res.appendChild(sectionTitle('四 大 面 向'));
   res.appendChild(renderAnalysis(dmEl));
   res.appendChild(sectionTitle('水 晶 推 薦'));
-  res.appendChild(renderCrystals(crystals));
+  res.appendChild(renderCrystals(crystals, strength, xi));
   res.appendChild(sectionTitle('訂製手鏈'));
   res.appendChild(renderContact());
 
