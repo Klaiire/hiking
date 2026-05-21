@@ -40,9 +40,13 @@ body { background:var(--bg); color:var(--text); font-family:'Noto Sans TC',sans-
 .form-group label { display:block; font-size:11px; letter-spacing:2px; color:var(--text-soft); margin-bottom:6px; }
 select { width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:10px; background:var(--bg); color:var(--text); font-family:'Noto Sans TC',sans-serif; font-size:14px; font-weight:400; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23A8B0B8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; cursor:pointer; transition:border-color .2s; }
 select:focus { outline:none; border-color:var(--accent); }
-.btn-calc { width:100%; margin-top:24px; padding:16px; background:var(--accent); color:white; border:none; border-radius:12px; font-family:'Noto Serif TC',serif; font-size:16px; letter-spacing:4px; cursor:pointer; transition:background .2s,transform .1s; }
-.btn-calc:hover { background:#C8706A; }
-.btn-calc:active { transform:scale(.98); }
+.consent-row { display:flex; align-items:flex-start; gap:10px; margin-top:20px; }
+.consent-row input[type=checkbox] { margin-top:3px; width:16px; height:16px; accent-color:var(--accent); flex-shrink:0; cursor:pointer; }
+.consent-row label { font-size:12px; color:var(--text-soft); line-height:1.7; cursor:pointer; }
+.btn-calc { width:100%; margin-top:14px; padding:16px; background:var(--accent); color:white; border:none; border-radius:12px; font-family:'Noto Serif TC',serif; font-size:16px; letter-spacing:4px; cursor:pointer; transition:background .2s,transform .1s; }
+.btn-calc:hover:not(:disabled) { background:#C8706A; }
+.btn-calc:active:not(:disabled) { transform:scale(.98); }
+.btn-calc:disabled { background:var(--border); color:var(--text-soft); cursor:not-allowed; }
 
 #results { display:none; max-width:640px; margin:0 auto; padding:0 20px 80px; animation:fadeUp .6s ease both; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
@@ -114,6 +118,50 @@ select:focus { outline:none; border-color:var(--accent); }
 .btn-reset { display:block; margin:32px auto 0; padding:12px 32px; border:1.5px solid var(--border); background:transparent; color:var(--text-soft); border-radius:10px; font-family:'Noto Sans TC',sans-serif; font-size:13px; letter-spacing:2px; cursor:pointer; transition:all .2s; }
 .btn-reset:hover { border-color:var(--accent); color:var(--accent); }
 
+/* ── COUPLE SECTION ── */
+.couple-section-card { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+.couple-toggle-btn { width:100%; padding:16px 20px; background:transparent; border:none; color:var(--text); font-family:'Noto Serif TC',serif; font-size:14px; letter-spacing:3px; cursor:pointer; transition:background .2s; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.couple-toggle-btn:hover { background:#FBF5F0; }
+.couple-toggle-btn .t-arrow { font-size:10px; color:var(--text-soft); transition:transform .3s; flex-shrink:0; }
+.couple-toggle-btn.open .t-arrow { transform:rotate(180deg); }
+.partner-form { display:none; padding:20px 24px 24px; border-top:1px solid var(--border); }
+.partner-form.visible { display:block; }
+.partner-section-label { font-size:11px; letter-spacing:3px; color:var(--text-soft); text-align:center; margin-bottom:16px; }
+.btn-couple { width:100%; margin-top:14px; padding:14px; background:var(--gold); color:white; border:none; border-radius:12px; font-family:'Noto Serif TC',serif; font-size:15px; letter-spacing:3px; cursor:pointer; transition:background .2s,transform .1s; }
+.btn-couple:hover { background:#B89558; }
+.btn-couple:active { transform:scale(.98); }
+
+.compat-card { background:linear-gradient(135deg,#FBF5F0 0%,#F0EAE2 100%); border-radius:var(--radius); padding:28px; text-align:center; border:1px solid var(--accent-light); }
+.compat-dm-row { display:flex; align-items:center; justify-content:center; gap:20px; margin-bottom:20px; flex-wrap:wrap; }
+.compat-dm { text-align:center; }
+.compat-dm-char { font-family:'Noto Serif TC',serif; font-size:48px; font-weight:600; line-height:1; }
+.compat-dm-label { font-size:10px; letter-spacing:2px; color:var(--text-soft); margin-top:6px; }
+.compat-em { font-size:22px; }
+.compat-type-badge { display:inline-flex; align-items:center; padding:5px 16px; border-radius:20px; font-size:11px; letter-spacing:2px; margin-bottom:12px; }
+.compat-type-badge.sheng { background:#E8F4E8; color:#4A8A4A; border:1px solid #B8D8B8; }
+.compat-type-badge.ke    { background:#FFF0E8; color:#C87040; border:1px solid #F0C4A0; }
+.compat-type-badge.he    { background:#E8EEF8; color:#5A70B0; border:1px solid #B0C0D8; }
+.compat-title { font-family:'Noto Serif TC',serif; font-size:20px; letter-spacing:3px; margin-bottom:10px; }
+.compat-desc { font-size:13px; line-height:1.9; color:var(--text-soft); }
+.compat-detail { font-size:12px; line-height:1.9; color:var(--text-soft); margin-top:14px; padding:14px 16px; background:rgba(255,255,255,0.65); border-radius:10px; text-align:left; }
+
+.compare-wx-card { background:var(--surface); border-radius:var(--radius); box-shadow:var(--shadow); padding:24px 28px; }
+.compare-legend { display:flex; gap:16px; justify-content:flex-end; margin-bottom:14px; align-items:center; }
+.legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text-soft); letter-spacing:1px; }
+.legend-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.compare-wx-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.compare-wx-row:last-child { margin-bottom:0; }
+.compare-wx-name { font-family:'Noto Serif TC',serif; font-size:16px; width:20px; text-align:center; }
+.compare-bars { flex:1; display:flex; flex-direction:column; gap:5px; }
+.compare-bar-bg { height:6px; background:var(--bg); border-radius:3px; overflow:hidden; border:1px solid var(--border); }
+.compare-bar-fill { height:100%; border-radius:3px; width:0%; transition:width 1s ease .3s; }
+.compare-bar-fill.p2 { opacity:.45; }
+.compare-wx-counts { font-size:10px; color:var(--text-soft); width:44px; text-align:right; }
+
+.couple-crystal-badge { font-size:10px; padding:2px 8px; border-radius:20px; background:#FDF8EC; color:var(--gold); border:1px solid #EDD890; letter-spacing:1px; margin-bottom:8px; display:inline-block; }
+.couple-crystal-note { margin-bottom:14px; padding:12px 14px; background:var(--bg); border-radius:10px; border:1px solid var(--border); }
+.couple-crystal-note p { font-size:12px; line-height:1.9; color:var(--text-soft); }
+
 footer { text-align:center; padding:32px 20px; font-size:11px; color:var(--text-soft); letter-spacing:2px; opacity:.5; border-top:1px solid var(--border); margin-top:20px; }
 
 @media(max-width:420px){
@@ -145,7 +193,11 @@ footer { text-align:center; padding:32px 20px; font-size:11px; color:var(--text-
     <div class="form-row single">
       <div class="form-group"><label>出生時辰</label><select id="sel-hour"></select></div>
     </div>
-    <button class="btn-calc" id="btn-calc">推算我的命盤</button>
+    <div class="consent-row">
+      <input type="checkbox" id="consent-check">
+      <label for="consent-check">我同意本工具僅供娛樂參考，所輸入之生辰資料不會被儲存或用於其他用途。</label>
+    </div>
+    <button class="btn-calc" id="btn-calc" disabled>推算我的命盤</button>
   </div>
 </section>
 
@@ -248,6 +300,9 @@ const CRYSTALS = {
   ],
 };
 
+// ── COUPLE STATE ──
+let currentCalc = null;
+
 // ── INIT ──
 function initSelects() {
   const sy = document.getElementById('sel-year');
@@ -281,7 +336,11 @@ function initSelects() {
 
   sy.addEventListener('change', updateDays);
   sm.addEventListener('change', updateDays);
-  document.getElementById('btn-calc').addEventListener('click', calculate);
+  const btnCalc = document.getElementById('btn-calc');
+  document.getElementById('consent-check').addEventListener('change', function() {
+    btnCalc.disabled = !this.checked;
+  });
+  btnCalc.addEventListener('click', calculate);
 }
 
 function updateDays() {
@@ -552,6 +611,259 @@ function renderContact() {
   return box;
 }
 
+// ── COUPLE LOGIC ──
+function getCompatibility(elA, elB) {
+  const gen = {木:'火',火:'土',土:'金',金:'水',水:'木'};
+  const ctl = {木:'土',土:'水',水:'火',火:'金',金:'木'};
+  if (elA === elB) return {
+    type:'比和', cls:'he', emoji:'🪞', title:'心靈相通',
+    desc:'兩人同一元素日主，心性相近，容易理解彼此的想法與感受方式。',
+    detail:'相同五行的日主往往有相似的價值觀和直覺，溝通起來輕鬆自然。偶爾也需要引入不同的聲音，讓彼此跳出相同的盲點——感情因此更有深度。'
+  };
+  if (gen[elA] === elB) return {
+    type:'相生', cls:'sheng', emoji:'🌿', title:'溫柔守護',
+    desc:'你的日主五行自然滋養對方，在關係中你是那個主動給予溫暖的人。',
+    detail:'「生」代表一種直覺性的給予——你往往能感受到對方需要什麼，在對方還未開口前就給予支持。這樣的組合在命理中象徵吉祥，只要記得也讓自己得到補充，就能細水長流。'
+  };
+  if (gen[elB] === elA) return {
+    type:'相生', cls:'sheng', emoji:'🌿', title:'被呵護',
+    desc:'伴侶的日主五行自然滋養你，你在這段關係中能感受到被守護的安心感。',
+    detail:'對方天生能給你帶來你所需要的能量，在你疲憊時自然地補充你。「生」代表的是持續流動的支持——珍惜這份被懂得的溫柔，也記得讓對方知道你感受到了。'
+  };
+  if (ctl[elA] === elB) return {
+    type:'相剋', cls:'ke', emoji:'💫', title:'磁力相吸',
+    desc:'你的五行對伴侶有影響力，兩人之間既有吸引力，也有需要磨合的張力。',
+    detail:'「剋」不只是衝突，更代表一種深刻的連結。你能為對方帶來方向感與結構，關鍵在於讓這股能量化為引導而非壓制。命理中說「七殺有情」，越是有張力的組合，磨合之後感情越是深刻。'
+  };
+  return {
+    type:'相剋', cls:'ke', emoji:'💫', title:'被牽引',
+    desc:'伴侶的五行對你有影響力，對方能為你帶來清晰感與前進的方向。',
+    detail:'對方能看見你看不見的盲點，為你帶來成長的動力。這種張力若處理得好，往往是讓彼此進步最快的組合——正因為在乎，才會互相影響。'
+  };
+}
+
+function getCoupleCrystals(wxA, xiA, wxB, xiB) {
+  const scores = {};
+  ['木','火','土','金','水'].forEach(name => {
+    const both   = xiA.includes(name) && xiB.includes(name);
+    const either = xiA.includes(name) || xiB.includes(name);
+    const defA = (wxA[name]||0) <= 1 ? 2 : 0;
+    const defB = (wxB[name]||0) <= 1 ? 2 : 0;
+    scores[name] = (both?5:either?3:0) + defA + defB;
+  });
+  const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const picks = [];
+  for (const [name] of sorted) {
+    if (picks.length >= 3) break;
+    const c = (CRYSTALS[name]||[]).find(x=>!picks.find(p=>p.name===x.name));
+    if (c) picks.push({...c, el:name});
+  }
+  if (picks.length < 3) {
+    for (const [name] of sorted) {
+      if (picks.length >= 3) break;
+      for (const c of (CRYSTALS[name]||[])) {
+        if (picks.length >= 3) break;
+        if (!picks.find(p=>p.name===c.name)) picks.push({...c, el:name});
+      }
+    }
+  }
+  return picks.slice(0,3);
+}
+
+function renderCoupleSection() {
+  const wrap = div('couple-section-card');
+  const btn = el('button',{'class':'couple-toggle-btn'});
+  btn.appendChild(el('span',null,'✦  加入伴侶 · 分析合盤'));
+  btn.appendChild(el('span',{'class':'t-arrow'},'▼'));
+  wrap.appendChild(btn);
+
+  const form = div('partner-form');
+  form.appendChild(el('div',{'class':'partner-section-label'},'伴侶 · 生辰資訊'));
+  const row1 = div('form-row');
+  [{id:'p-year',lbl:'年'},{id:'p-month',lbl:'月'},{id:'p-day',lbl:'日'}].forEach(({id,lbl})=>{
+    const fg = div('form-group');
+    fg.appendChild(el('label',null,lbl));
+    fg.appendChild(el('select',{'id':id}));
+    row1.appendChild(fg);
+  });
+  form.appendChild(row1);
+  const row2 = div('form-row single');
+  const hFg = div('form-group');
+  hFg.appendChild(el('label',null,'出生時辰'));
+  hFg.appendChild(el('select',{'id':'p-hour'}));
+  row2.appendChild(hFg);
+  form.appendChild(row2);
+  const calcBtn = el('button',{'class':'btn-couple'},'推算合盤');
+  form.appendChild(calcBtn);
+  wrap.appendChild(form);
+
+  let open = false, inited = false;
+  btn.addEventListener('click',()=>{
+    open = !open;
+    form.classList.toggle('visible', open);
+    btn.classList.toggle('open', open);
+    if (open && !inited) { initPartnerSelects(); inited = true; }
+  });
+  calcBtn.addEventListener('click',()=> calculateCouple(wrap));
+  return wrap;
+}
+
+function initPartnerSelects() {
+  const sy = document.getElementById('p-year');
+  for (let y=1940;y<=2010;y++){
+    const o=document.createElement('option');
+    o.value=y; o.textContent=y+' 年';
+    if(y===1990) o.selected=true;
+    sy.appendChild(o);
+  }
+  const sm = document.getElementById('p-month');
+  for (let m=1;m<=12;m++){
+    const o=document.createElement('option');
+    o.value=m; o.textContent=m+' 月';
+    if(m===1) o.selected=true;
+    sm.appendChild(o);
+  }
+  const sd = document.getElementById('p-day');
+  for (let d=1;d<=31;d++){
+    const o=document.createElement('option');
+    o.value=d; o.textContent=d+' 日';
+    if(d===1) o.selected=true;
+    sd.appendChild(o);
+  }
+  const sh = document.getElementById('p-hour');
+  SHICHEN.forEach(([label],i)=>{
+    const o=document.createElement('option');
+    o.value=i; o.textContent=label;
+    sh.appendChild(o);
+  });
+  sy.addEventListener('change', updatePartnerDays);
+  sm.addEventListener('change', updatePartnerDays);
+}
+
+function updatePartnerDays() {
+  const y=+document.getElementById('p-year').value;
+  const m=+document.getElementById('p-month').value;
+  const sd=document.getElementById('p-day');
+  const cur=+sd.value, max=new Date(y,m,0).getDate();
+  sd.textContent='';
+  for(let d=1;d<=max;d++){
+    const o=document.createElement('option');
+    o.value=d; o.textContent=d+' 日';
+    if(d===Math.min(cur,max)) o.selected=true;
+    sd.appendChild(o);
+  }
+}
+
+function calculateCouple(container) {
+  if (!currentCalc) return;
+  const year=+document.getElementById('p-year').value;
+  const month=+document.getElementById('p-month').value;
+  const day=+document.getElementById('p-day').value;
+  const hourIdx=+document.getElementById('p-hour').value;
+  const pCalc = calcBazi(year,month,day,hourIdx);
+  const {xi:xiA} = getXiYongShen(currentCalc.dmEl, getDMStrength(currentCalc.dmEl,currentCalc.mBranch,currentCalc.wx));
+  const {xi:xiB} = getXiYongShen(pCalc.dmEl, getDMStrength(pCalc.dmEl,pCalc.mBranch,pCalc.wx));
+  container.textContent='';
+  container.appendChild(renderCoupleResult(currentCalc, pCalc, xiA, xiB));
+  setTimeout(()=>{
+    container.querySelectorAll('.compare-bar-fill').forEach(f=>{f.style.width=f.dataset.w;});
+  },120);
+  container.scrollIntoView({behavior:'smooth'});
+}
+
+function renderCompareWuxing(wxA, wxB) {
+  const card = div('compare-wx-card');
+  const legend = div('compare-legend');
+  const mkLeg = (label, col, op) => {
+    const item = div('legend-item');
+    item.appendChild(el('span',{'class':'legend-dot','style':'background:'+col+';opacity:'+op}));
+    item.appendChild(document.createTextNode(label));
+    return item;
+  };
+  legend.appendChild(mkLeg('你', 'var(--accent)', 1));
+  legend.appendChild(mkLeg('伴侶', 'var(--gold)', 0.65));
+  card.appendChild(legend);
+  const totA=Object.values(wxA).reduce((a,b)=>a+b,0);
+  const totB=Object.values(wxB).reduce((a,b)=>a+b,0);
+  ['木','火','土','金','水'].forEach(name=>{
+    const cA=wxA[name]||0, cB=wxB[name]||0;
+    const pA=totA>0?Math.round(cA/totA*100):0;
+    const pB=totB>0?Math.round(cB/totB*100):0;
+    const col=EL_COLOR[name];
+    const row=div('compare-wx-row');
+    row.appendChild(el('div',{'class':'compare-wx-name','style':'color:'+col},name));
+    const bars=div('compare-bars');
+    const bgA=div('compare-bar-bg'); const fA=el('div',{'class':'compare-bar-fill','style':'background:'+col}); fA.dataset.w=pA+'%'; bgA.appendChild(fA);
+    const bgB=div('compare-bar-bg'); const fB=el('div',{'class':'compare-bar-fill p2','style':'background:'+col}); fB.dataset.w=pB+'%'; bgB.appendChild(fB);
+    bars.appendChild(bgA); bars.appendChild(bgB);
+    row.appendChild(bars);
+    row.appendChild(el('div',{'class':'compare-wx-counts'},cA+' · '+cB));
+    card.appendChild(row);
+  });
+  return card;
+}
+
+function renderCoupleResult(calcA, calcB, xiA, xiB) {
+  const wrap = div('');
+  const compat = getCompatibility(calcA.dmEl, calcB.dmEl);
+
+  const compatCard = div('compat-card');
+  const dmRow = div('compat-dm-row');
+  const mkDM = (stemCh, dmEl2, label) => {
+    const d = div('compat-dm');
+    d.appendChild(el('div',{'class':'compat-dm-char','style':'color:'+EL_COLOR[dmEl2]},stemCh));
+    d.appendChild(el('div',{'class':'compat-dm-label'},label));
+    return d;
+  };
+  dmRow.appendChild(mkDM(calcA.dmStem, calcA.dmEl, '你'));
+  dmRow.appendChild(el('div',{'class':'compat-em'},compat.emoji));
+  dmRow.appendChild(mkDM(calcB.dmStem, calcB.dmEl, '他 ／ 她'));
+  compatCard.appendChild(dmRow);
+  compatCard.appendChild(el('span',{'class':'compat-type-badge '+compat.cls},compat.type));
+  compatCard.appendChild(el('div',{'class':'compat-title'},compat.title));
+  compatCard.appendChild(el('div',{'class':'compat-desc'},compat.desc));
+  compatCard.appendChild(el('div',{'class':'compat-detail'},compat.detail));
+  wrap.appendChild(compatCard);
+
+  wrap.appendChild(sectionTitle('五 行 比 較'));
+  wrap.appendChild(renderCompareWuxing(calcA.wx, calcB.wx));
+  wrap.appendChild(sectionTitle('伴 侶 命 盤'));
+  wrap.appendChild(renderPillars(calcB.pillars));
+  wrap.appendChild(sectionTitle('合 盤 水 晶'));
+  const cc = getCoupleCrystals(calcA.wx, xiA, calcB.wx, xiB);
+  wrap.appendChild(renderCoupleCrystals(cc));
+
+  const disclaimer = div('crystal-note');
+  disclaimer.appendChild(el('p',null,'本合盤以兩人日主天干的五行生剋關係為基礎，屬入門簡化分析。'));
+  disclaimer.appendChild(el('p',null,'完整合婚命理尚需考量地支六合六沖、納音、大運流年等因素，建議搭配專業命理師進一步解析。合盤水晶推薦為創意應用，非傳統典籍內容，僅供參考。'));
+  wrap.appendChild(disclaimer);
+
+  return wrap;
+}
+
+function renderCoupleCrystals(crystals) {
+  const wrap = div('');
+  const note = div('couple-crystal-note');
+  note.appendChild(el('p',null,'以下推薦同時兼顧兩人命盤的喜用神，適合各自配戴或一起訂製搭配手鏈，讓水晶能量在日常中呼應彼此。'));
+  wrap.appendChild(note);
+  const list = div('crystal-list');
+  crystals.forEach((c,i)=>{
+    const card = div('crystal-card');
+    const orb = el('div',{'class':'crystal-orb','style':'background:radial-gradient(circle at 35% 30%,'+lighten(c.color)+','+c.color+')'});
+    const info = div('crystal-info');
+    const nameRow = div('crystal-name-row');
+    nameRow.appendChild(el('span',{'class':'crystal-zh'},c.name));
+    nameRow.appendChild(el('span',{'class':'crystal-en'},c.en));
+    info.appendChild(nameRow);
+    info.appendChild(el('div',{'class':'couple-crystal-badge'},(i===0?'✦ 首推 · ':'')+'雙人推薦 · '+c.badge));
+    info.appendChild(el('div',{'class':'crystal-desc'},c.desc));
+    card.appendChild(orb); card.appendChild(info);
+    list.appendChild(card);
+  });
+  wrap.appendChild(list);
+  return wrap;
+}
+
 function sectionTitle(text) {
   const t = el('div',{'class':'section-title'});
   t.textContent = text;
@@ -569,6 +881,8 @@ function calculate() {
   const total = Object.values(wx).reduce((a,b)=>a+b,0);
   const {crystals, strength, xi} = getCrystals(wx, dmEl, mBranch);
 
+  currentCalc = { wx, mBranch, dmStem, dmEl };
+
   const res = document.getElementById('results');
   res.textContent = '';
 
@@ -583,6 +897,8 @@ function calculate() {
   res.appendChild(renderAnalysis(dmEl));
   res.appendChild(sectionTitle('水 晶 推 薦'));
   res.appendChild(renderCrystals(crystals, strength, xi));
+  res.appendChild(sectionTitle('合 盤 分 析'));
+  res.appendChild(renderCoupleSection());
   res.appendChild(sectionTitle('訂製手鏈'));
   res.appendChild(renderContact());
 
@@ -598,6 +914,7 @@ function calculate() {
 }
 
 function reset() {
+  currentCalc = null;
   const res = document.getElementById('results');
   res.style.display='none';
   res.textContent='';
