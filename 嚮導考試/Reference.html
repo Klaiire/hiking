@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reference｜登山嚮導考試速查</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;}
+body{font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+  background:linear-gradient(135deg,#1a3a2e 0%,#2d5a45 100%);
+  color:#1f2937;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:900px;margin:0 auto;padding:24px 18px 60px;}
+
+/* header */
+.topbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:#eafaf1;margin-bottom:22px;}
+.topbar h1{font-size:22px;font-weight:800;flex:1 1 100%;margin-top:4px;}
+.badge{background:rgba(255,255,255,.15);padding:5px 14px;border-radius:999px;font-size:13px;font-weight:600;}
+.homelink{color:#eafaf1;text-decoration:none;font-size:13px;background:rgba(255,255,255,.12);padding:6px 12px;border-radius:8px;}
+
+/* 目錄 nav */
+.toc{background:rgba(255,255,255,.1);border-radius:16px;padding:18px 22px;margin-bottom:24px;color:#eafaf1;}
+.toc h3{font-size:14px;font-weight:700;margin-bottom:12px;opacity:.8;letter-spacing:.05em;}
+.toc-links{display:flex;flex-wrap:wrap;gap:8px;}
+.toc-links a{color:#eafaf1;text-decoration:none;background:rgba(255,255,255,.15);
+  padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;
+  transition:background .15s;}
+.toc-links a:hover{background:rgba(255,255,255,.28);}
+
+/* section card */
+.sec{background:#fff;border-radius:20px;padding:28px 28px 22px;
+  box-shadow:0 16px 40px rgba(0,0,0,.22);margin-bottom:20px;scroll-margin-top:16px;}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.sec-icon{font-size:26px;}
+.sec-title{font-size:20px;font-weight:800;color:#1a3a2e;}
+.sec-sub{font-size:13px;color:#6b7280;margin-top:2px;}
+
+/* 表格 */
+table{width:100%;border-collapse:collapse;font-size:15px;}
+th{background:#f0fdf4;color:#166534;font-weight:800;padding:10px 14px;
+   text-align:left;border-bottom:2px solid #bbf7d0;}
+td{padding:10px 14px;border-bottom:1px solid #f0f0f0;vertical-align:top;line-height:1.6;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafffe;}
+.alt-range{font-weight:800;color:#2d5a45;white-space:nowrap;}
+.plant-name{font-weight:700;color:#1a3a2e;}
+.note{font-size:13px;color:#6b7280;}
+.highlight{background:#fef9c3;border-radius:4px;padding:1px 5px;font-weight:700;}
+
+/* 數字卡片排排列 */
+.numgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:4px;}
+.numcard{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:14px;padding:16px 18px;}
+.numcard .val{font-size:26px;font-weight:800;color:#16a34a;margin-bottom:4px;}
+.numcard .label{font-size:13px;color:#374151;line-height:1.5;}
+.numcard.warn{background:#fff7ed;border-color:#fed7aa;}
+.numcard.warn .val{color:#c2570f;}
+.numcard.blue{background:#eff6ff;border-color:#bfdbfe;}
+.numcard.blue .val{color:#1d4ed8;}
+
+/* list items */
+.ref-list{display:flex;flex-direction:column;gap:10px;}
+.ref-item{background:#f8fafc;border-radius:12px;padding:14px 16px;
+  border-left:4px solid #2d5a45;line-height:1.7;font-size:15px;}
+.ref-item b{color:#1a3a2e;}
+.ref-item.danger{border-left-color:#dc2626;background:#fef2f2;}
+.ref-item.danger b{color:#dc2626;}
+.ref-item.warn{border-left-color:#d97706;background:#fffbeb;}
+.ref-item.warn b{color:#b45309;}
+.ref-item.info{border-left-color:#2563eb;background:#eff6ff;}
+.ref-item.info b{color:#1d4ed8;}
+
+/* 颱風時間軸 */
+.timeline{display:flex;flex-direction:column;gap:0;}
+.tl-item{display:flex;gap:16px;align-items:stretch;}
+.tl-line{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.tl-dot{width:14px;height:14px;border-radius:50%;background:#2d5a45;flex-shrink:0;margin-top:4px;}
+.tl-dot.red{background:#dc2626;}
+.tl-dot.orange{background:#d97706;}
+.tl-bar{width:2px;background:#e5e7eb;flex:1;min-height:18px;}
+.tl-content{padding-bottom:18px;font-size:15px;line-height:1.6;}
+.tl-time{font-weight:800;color:#2d5a45;font-size:16px;}
+.tl-time.red{color:#dc2626;}
+.tl-time.orange{color:#d97706;}
+
+/* source tag */
+.src{display:inline-block;font-size:11px;color:#9ca3af;background:#f3f4f6;
+  border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle;}
+
+@media(max-width:600px){
+  .sec{padding:20px 16px;}
+  table{font-size:13px;}
+  td,th{padding:8px 10px;}
+  .numgrid{grid-template-columns:1fr 1fr;}
+  .numcard .val{font-size:22px;}
+}
+</style></head>
+<body>
+<div class="wrap">
+
+<div class="topbar">
+  <span class="badge">📖 Reference</span>
+  <a class="homelink" href="00_總覽.html">← 回總覽</a>
+  <h1>考試速查手冊｜關鍵數字 × 林帶分布 × 颱風氣象</h1>
+</div>
+
+<!-- 目錄 -->
+<div class="toc">
+  <h3>📌 快速跳轉</h3>
+  <div class="toc-links">
+    <a href="#forest-zones">🌲 台灣垂直林帶</a>
+    <a href="#altitude-basics">📐 海拔關鍵數字</a>
+    <a href="#typhoon">🌀 颱風警報時間</a>
+    <a href="#weather-facts">⛅ 氣象重要知識</a>
+    <a href="#altitude-sickness">🏔 高山症速查</a>
+    <a href="#lightning">⚡ 閃電避難</a>
+    <a href="#plants-id">🌿 植物辨識重點</a>
+  </div>
+</div>
+
+<!-- ① 台灣垂直林帶分布 -->
+<div class="sec" id="forest-zones">
+  <div class="sec-head">
+    <span class="sec-icon">🌲</span>
+    <div>
+      <div class="sec-title">台灣垂直林帶分布</div>
+      <div class="sec-sub">由高到低：凍原 → 草原 → 針葉林 → 針闊混合 → 闊葉林<span class="src">10S063</span></div>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr><th>海拔高度</th><th>帶名</th><th>代表植物</th><th>特徵</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="alt-range">3,400 m 以上</td>
+        <td><span class="plant-name">高山寒原（凍原）</span></td>
+        <td>玉山薄雪草、玉山小蘗、玉山圓柏（旗形）</td>
+        <td>森林線以上，土薄保水差，強風，冰封季至少4個月<span class="src">10T006</span></td>
+      </tr>
+      <tr>
+        <td class="alt-range">2,800–3,400 m</td>
+        <td><span class="plant-name">高山草原</span></td>
+        <td>玉山箭竹（1800–3800m）、高山芒、矮小耐寒植物</td>
+        <td>草皮型地表，氣溫偏低，水分保持不易<span class="src">10S071</span></td>
+      </tr>
+      <tr style="background:#f0fdf4;">
+        <td class="alt-range">3,000 m 附近</td>
+        <td colspan="3">🔑 <b>冷杉 ↔ 鐵杉交界處</b>約3,000m，通常為冬季降雪海拔下限<span class="src">10T012</span></td>
+      </tr>
+      <tr>
+        <td class="alt-range">2,500–3,000 m</td>
+        <td><span class="plant-name">針葉林（上段）</span></td>
+        <td>台灣冷杉（直立聳高）、鐵杉（傘狀樹冠）、雲杉</td>
+        <td>看到鐵杉箭竹林 ≈ 2,500m<span class="src">13S033</span>；3,000m 可見冷杉+玉山圓柏<span class="src">13S052</span></td>
+      </tr>
+      <tr>
+        <td class="alt-range">2,000–2,500 m</td>
+        <td><span class="plant-name">霧林帶（檜木林帶）</span></td>
+        <td>紅檜、台灣扁柏（雲霧帶常見）</td>
+        <td>看到檜木林 ≈ 2,000–2,500m<span class="src">13S048</span>；全年相對溼度高、常瀰漫著霧氣</td>
+      </tr>
+      <tr style="background:#f0fdf4;">
+        <td class="alt-range">2,000 m 以上</td>
+        <td colspan="3">🔑 看到<b>冷杉林</b>，表示海拔 ≥ 2,000m<span class="src">13S032</span></td>
+      </tr>
+      <tr>
+        <td class="alt-range">500–1,800 m</td>
+        <td><span class="plant-name">溫帶闊葉林</span></td>
+        <td>桑科、樟科（香楠、豬腳楠）、蕨類、筆筒樹</td>
+        <td>氣候溫暖，土壤肥沃，物種最豐富</td>
+      </tr>
+      <tr>
+        <td class="alt-range">0–500 m</td>
+        <td><span class="plant-name">熱帶季風林</span></td>
+        <td>榕樹、棋盤腳、林投</td>
+        <td>恆春半島、蘭嶼一帶</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="margin-top:14px;font-size:13px;color:#6b7280;">
+    ⚠️ 植物特有種比例：海拔愈高，特有種比例<b>愈高</b>（不是愈低）<span class="src">10T015 答：✗</span>
+  </p>
+</div>
+
+<!-- ② 海拔關鍵數字 -->
+<div class="sec" id="altitude-basics">
+  <div class="sec-head">
+    <span class="sec-icon">📐</span>
+    <div>
+      <div class="sec-title">海拔關鍵數字</div>
+      <div class="sec-sub">氣溫 / 氧分壓 / 紫外線 / 高山症門檻</div>
+    </div>
+  </div>
+  <div class="numgrid">
+    <div class="numcard">
+      <div class="val">−6°C</div>
+      <div class="label">每上升 <b>1,000m</b><br>氣溫下降攝氏6度<span class="src">10S013</span></div>
+    </div>
+    <div class="numcard blue">
+      <div class="val">−10%</div>
+      <div class="label">每上升 <b>1,000m</b><br>大氣氧氣分壓減少10%<span class="src">10S040</span></div>
+    </div>
+    <div class="numcard warn">
+      <div class="val">+3–5%</div>
+      <div class="label">每上升 <b>300m</b><br>紫外線增加3至5%<span class="src">10S035</span></div>
+    </div>
+    <div class="numcard">
+      <div class="val">2,500 m</div>
+      <div class="label">高海拔疾病<br>診斷標準門檻<span class="src">17T006</span></div>
+    </div>
+    <div class="numcard blue">
+      <div class="val">24°C</div>
+      <div class="label">玉山主峰(3,952m) vs<br>嘉義市(27m) 夏季溫差<span class="src">10S038</span></div>
+    </div>
+    <div class="numcard">
+      <div class="val">3,400 m</div>
+      <div class="label">森林線（Forest Line）<br>以上為高山寒原<span class="src">10T006</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ③ 颱風警報時間 -->
+<div class="sec" id="typhoon">
+  <div class="sec-head">
+    <span class="sec-icon">🌀</span>
+    <div>
+      <div class="sec-title">颱風警報時間 × 管制入山</div>
+      <div class="sec-sub">這三個時間點一定要背起來！</div>
+    </div>
+  </div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-line"><div class="tl-dot blue" style="background:#2563eb;"></div><div class="tl-bar"></div></div>
+      <div class="tl-content">
+        <div class="tl-time" style="color:#2563eb;">颱風距海岸 100km → 發布前 24 小時</div>
+        <div>氣象局發布 <b>海上颱風警報</b></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-line"><div class="tl-dot red"></div><div class="tl-bar"></div></div>
+      <div class="tl-content">
+        <div class="tl-time red">🚫 海上颱風警報發布時 → 開始管制入山</div>
+        <div>政府在此時點管制入山（不是陸上警報）<span class="src">Day01 10S056 / Day05 11S018</span></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-line"><div class="tl-dot orange"></div><div class="tl-bar"></div></div>
+      <div class="tl-content">
+        <div class="tl-time orange">颱風侵襲陸地前 18 小時</div>
+        <div>氣象局發布 <b>陸上颱風警報</b></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-line"><div class="tl-dot" style="background:#9ca3af;"></div></div>
+      <div class="tl-content">
+        <div class="tl-time" style="color:#374151;">颱風登陸</div>
+        <div>暴風半徑以7級風（蒲福風級7）為基準</div>
+      </div>
+    </div>
+  </div>
+  <div class="ref-list" style="margin-top:16px;">
+    <div class="ref-item warn">
+      <b>颱風等級</b>：依<b>中心附近最大風速</b>分為輕度、中度、強烈三級（不是暴風半徑或氣壓）
+    </div>
+    <div class="ref-item">
+      <b>颱風眼</b>：邊緣風力最強，向外愈弱；暴風範圍由中心向外到<b>平均7級風</b>處
+    </div>
+    <div class="ref-item">
+      <b>颱風來襲前徵兆</b>：高雲（卷雲）出現、能見度良好、氣壓降低、特殊晚霞（風向改變也是）
+    </div>
+    <div class="ref-item info">
+      <b>梅雨季</b>：每年 <b>5–6 月</b>（鋒面徘迴、持續降雨，非颱風）
+    </div>
+  </div>
+</div>
+
+<!-- ④ 氣象重要知識 -->
+<div class="sec" id="weather-facts">
+  <div class="sec-head">
+    <span class="sec-icon">⛅</span>
+    <div>
+      <div class="sec-title">氣象重要知識</div>
+      <div class="sec-sub">焚風 / 季風 / 天氣特徵 / 濃霧</div>
+    </div>
+  </div>
+  <div class="ref-list">
+    <div class="ref-item">
+      <b>焚風（Foehn）</b>：濕空氣翻越山脈後，<b>背風坡</b>溫度升高、濕度降低的乾熱現象。台灣以花東縱谷最常見（中央山脈擋西南氣流）。
+    </div>
+    <div class="ref-item">
+      <b>谷風 / 山風</b>：白天日照 → 谷底升溫 → 谷風（往山頂吹）；夜間 → 山頂降溫 → 山風（往谷底吹）。
+    </div>
+    <div class="ref-item">
+      <b>東北季風</b>：台灣冬季主要天氣系統，帶來<b>東北部（迎風面）</b>大量降雨，西南部（背風面）較乾燥。
+    </div>
+    <div class="ref-item">
+      <b>午後雷陣雨</b>：台灣<b>夏季</b>，白天熱力對流旺盛，午後在山區形成積雨雲，多發生在14:00–17:00。
+    </div>
+    <div class="ref-item info">
+      <b>濃霧定義</b>（世界氣象組織）：水平能見度 <b>低於 100 公尺</b>
+    </div>
+    <div class="ref-item">
+      <b>低溫特報</b>：平地氣溫預計降至 <b>10°C 以下</b>發布
+    </div>
+    <div class="ref-item warn">
+      <b>風寒效應</b>：風速愈快、體感溫度愈低；即使氣溫不低，強風也會加速體熱散失導致失溫。
+    </div>
+    <div class="ref-item">
+      <b>氣壓式高度計</b>：氣壓隨天氣變化，需在<b>多個已知高度點反覆校正</b>，不是只在登山口校正一次<span class="src">12T020 答：✗</span>
+    </div>
+    <div class="ref-item info">
+      <b>天氣轉壞徵兆</b>：卷雲增加 → 高積雲 → 厚雲層蓋天 → 降雨；日暈、月暈也是天氣轉變的預兆。
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ 高山症速查 -->
+<div class="sec" id="altitude-sickness">
+  <div class="sec-head">
+    <span class="sec-icon">🏔</span>
+    <div>
+      <div class="sec-title">高山症（高海拔疾病）速查</div>
+      <div class="sec-sub">AMS / HACE / HAPE 三種 + 處置原則</div>
+    </div>
+  </div>
+  <table style="margin-bottom:18px;">
+    <thead>
+      <tr><th>類型</th><th>症狀</th><th>最重要早期指標</th><th>首選處置</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>AMS</b><br><span class="note">急性高山病</span><br><span class="note">發生率最高</span></td>
+        <td>頭痛＋以下至少一項：疲倦、失眠、頭暈、噁心嘔吐<span class="src">17S061</span></td>
+        <td>頭痛</td>
+        <td>暫停上升；症狀加重→下撤；可用丹木斯(Diamox)</td>
+      </tr>
+      <tr>
+        <td><b>HACE</b><br><span class="note">高海拔腦水腫</span></td>
+        <td>步態不穩（無法腳跟對齊腳尖走直線）、神智改變、昏迷<span class="src">17T013</span></td>
+        <td class="highlight">步態不穩<span class="src">17S091</span></td>
+        <td>立即下撤（即使已用藥/氧氣也必須下山）<span class="src">17S062</span></td>
+      </tr>
+      <tr>
+        <td><b>HAPE</b><br><span class="note">高海拔肺水腫</span></td>
+        <td>休息時也喘、乾咳→咳出粉紅色泡沫痰、極度疲憊<span class="src">17S069,17S092</span></td>
+        <td class="highlight">粉紅色泡沫痰</td>
+        <td>立即下撤＋給氧；威而鋼/犀利士可<b>預防</b>HAPE<span class="src">17S124</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="ref-list">
+    <div class="ref-item danger">
+      <b>最有效治療</b>：下降海拔高度（任何高山症的首選）<span class="src">17S074</span>
+    </div>
+    <div class="ref-item warn">
+      <b>處置原則（記這三句）</b>：
+      ① 症狀完全緩解 → 可繼續上升但需觀察<br>
+      ② 症狀持續不退 → 暫停上升、甚至放棄登頂<br>
+      ③ 症狀持續惡化或步態不穩 → 立即下撤或求援
+    </div>
+    <div class="ref-item info">
+      <b>預防方法</b>：緩慢上升（主因是快速上升）、預防性使用丹木斯<br>
+      ❌ 不可：喝高濃度酒（48小時內禁酒）、快速上升、上升後立即過夜在高點
+    </div>
+    <div class="ref-item">
+      <b>曾罹患HAPE</b>者再登高山，強烈建議預防性服藥<span class="src">17S113</span>
+    </div>
+    <div class="ref-item">
+      <b>不是高山症</b>：高山腎水腫（此病不存在）<span class="src">17S090</span>
+    </div>
+    <div class="ref-item info">
+      <b>取藥方式</b>：須持醫師處方，不可自行購買。有慢性病隊員需出發前請原主治醫師評估<span class="src">17S107,17S122</span>
+    </div>
+  </div>
+</div>
+
+<!-- ⑥ 閃電 -->
+<div class="sec" id="lightning">
+  <div class="sec-head">
+    <span class="sec-icon">⚡</span>
+    <div>
+      <div class="sec-title">閃電避難原則</div>
+      <div class="sec-sub">30-30 通則 + 安全位置</div>
+    </div>
+  </div>
+  <div class="ref-list">
+    <div class="ref-item warn">
+      <b>30-30 通則</b>：<br>
+      ① 閃電到雷聲 &lt; 30 秒 → 立刻躲避<br>
+      ② 最後一聲雷後 <b>30 分鐘</b>沒有雷聲，才能安全進行戶外活動<span class="src">Day09 17T029</span>
+    </div>
+    <div class="ref-item danger">
+      <b>最危險位置</b>：高山稜線、孤立高樹、開闊地、水面旁、山頂
+    </div>
+    <div class="ref-item">
+      <b>相對安全位置</b>：低窪處、濃密矮樹叢（非高樹）、山屋（遠離金屬）<br>
+      ⚠️ 帳篷內<b>不安全</b>（帳篷不能避雷）
+    </div>
+    <div class="ref-item info">
+      <b>被閃電擊中後</b>：傷者身上不帶電，可安全施救
+    </div>
+    <div class="ref-item">
+      <b>高山閃電風險</b>比平地更高（閃電密度較高）
+    </div>
+  </div>
+</div>
+
+<!-- ⑦ 植物辨識重點 -->
+<div class="sec" id="plants-id">
+  <div class="sec-head">
+    <span class="sec-icon">🌿</span>
+    <div>
+      <div class="sec-title">植物辨識重點</div>
+      <div class="sec-sub">花色 / 毒性 / 特殊植物 / 林帶代表種</div>
+    </div>
+  </div>
+  <table style="margin-bottom:16px;">
+    <thead><tr><th>植物</th><th>特徵記憶點</th></tr></thead>
+    <tbody>
+      <tr><td class="plant-name">台灣冷杉</td><td>樹形直立聳高；3,000m 以上可見；冷杉/鐵杉交界 ≈ 3,000m</td></tr>
+      <tr><td class="plant-name">鐵杉</td><td>傘狀樹冠；2,500m 附近，常與箭竹伴生</td></tr>
+      <tr><td class="plant-name">玉山圓柏</td><td>台灣分布海拔最高的樹木之一；3,000m 以上；旗形樹（受強風影響）</td></tr>
+      <tr><td class="plant-name">紅檜 / 台灣扁柏</td><td>霧林帶（雲霧帶）2,000–2,500m；台灣特有的檜木林</td></tr>
+      <tr><td class="plant-name">玉山箭竹</td><td>1,800–3,800m 廣泛分布；嫩筍<b>可食用</b>（考題：不可食用為錯）</td></tr>
+      <tr><td class="plant-name">台灣杉</td><td>台灣樹高最高，可達70m以上；大鬼湖一帶有較大面積</td></tr>
+    </tbody>
+  </table>
+  <table style="margin-bottom:16px;">
+    <thead><tr><th>花色</th><th>植物</th></tr></thead>
+    <tbody>
+      <tr><td><span style="color:#b45309;font-weight:700;">🟡 黃色</span></td><td>金毛杜鵑、台灣野百合（注意：百合多為白色，少數黃色）</td></tr>
+      <tr><td><span style="color:#be185d;font-weight:700;">🔴 紅/粉</span></td><td>台灣杜鵑（紅色系）、玉山杜鵑（白至淡粉）</td></tr>
+      <tr><td><span style="color:#1d4ed8;font-weight:700;">🔵 藍/紫</span></td><td>阿里山龍膽（藍紫色）⚠️ 考題選項D缺字應為此</td></tr>
+      <tr><td><span style="color:#6b7280;font-weight:700;">⚪ 白色</span></td><td>玉山薄雪草（台灣雪絨花）、山月桃</td></tr>
+    </tbody>
+  </table>
+  <div class="ref-list">
+    <div class="ref-item danger">
+      <b>有毒植物</b>：姑婆芋（誤食嚴重）、台灣天南星、石蒜（彼岸花）<br>
+      <b>有毒蕨類</b>：蕨（食用過多致癌；歐洲研究，不建議大量食用）
+    </div>
+    <div class="ref-item warn">
+      <b>有刺植物</b>：刺蔥、懸鉤子（覆盆子）、薔薇科植物
+    </div>
+    <div class="ref-item">
+      <b>珍貴稀有植物（文化資產保存法）</b>：台灣水青岡、清水圓柏、南湖柳葉菜等。⚠️ 玉山圓柏、玉山杜鵑不在此列
+    </div>
+    <div class="ref-item info">
+      <b>陽性植物</b>（耐旱、喜日照，生長於南坡）：松類、相思樹；<br>
+      <b>陰性植物</b>：檜木、冷杉（生長於霧林帶濕冷環境）
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+</body></html>
