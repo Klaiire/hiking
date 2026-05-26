@@ -125,7 +125,8 @@ tr:hover td{background:#fafffe;}
       <div class="sec-sub">由高到低：凍原 → 草原 → 針葉林 → <b style="color:#2d5a45;">針闊混合（1800–2500m）</b> → 闊葉林<span class="src">10S063</span></div>
     </div>
   </div>
-  <table>
+  <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+  <table style="min-width:700px;">
     <thead>
       <tr><th>海拔高度</th><th>帶名</th><th>代表植物</th><th>代表動物</th><th>特徵</th></tr>
     </thead>
@@ -182,6 +183,7 @@ tr:hover td{background:#fafffe;}
       </tr>
     </tbody>
   </table>
+  </div>
   <p style="margin-top:14px;font-size:13px;color:#6b7280;">
     ⚠️ 植物特有種比例：海拔愈高，特有種比例<b>愈高</b>（不是愈低）<span class="src">10T015 答：✗</span>
   </p>
@@ -259,13 +261,35 @@ tr:hover td{background:#fafffe;}
       <div class="tl-line"><div class="tl-dot" style="background:#9ca3af;"></div></div>
       <div class="tl-content">
         <div class="tl-time" style="color:#374151;">颱風登陸</div>
-        <div>暴風半徑以7級風（蒲福風級7）為基準</div>
+        <div>颱風<b>中心（眼）</b>抵達陸地 → 稱為登陸<br>
+        <span style="font-size:12px;color:#dc2626;">❌ 「7 級風接觸陸地」≠ 登陸（7 級風比中心早到陸地）</span><br>
+        <span style="font-size:12px;color:#6b7280;">暴風半徑 = 中心到蒲福 7 級風（≥ 13.9 m/s）邊界的距離</span></div>
       </div>
     </div>
   </div>
   <div class="ref-list" style="margin-top:16px;">
+    <div class="ref-item info">
+      <b>颱風結構（由內到外）</b><br>
+      <span style="font-size:13px;line-height:2;">
+        🌀 <b>颱風眼（中心）</b>：氣壓最低，反而風平浪靜<br>
+        💨 <b>眼牆（颱風眼邊緣）</b>：風力<b>最強</b>、雨量最大的地方<br>
+        🌧 <b>螺旋雨帶</b>：從眼牆往外延伸，風雨愈來愈弱<br>
+        📏 <b>暴風半徑邊界</b>：風速剛好降到 7 級風（13.9 m/s）處
+      </span>
+    </div>
     <div class="ref-item warn">
       <b>颱風等級</b>：依<b>中心附近最大風速</b>分為輕度、中度、強烈三級（不是暴風半徑或氣壓）
+      <table style="margin-top:10px;font-size:13px;width:100%;">
+        <thead>
+          <tr><th style="background:#fff7ed;color:#92400e;padding:6px 10px;">等級</th><th style="background:#fff7ed;color:#92400e;padding:6px 10px;">中心附近最大風速</th><th style="background:#fff7ed;color:#92400e;padding:6px 10px;">蒲福風級</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:6px 10px;">輕度颱風</td><td style="padding:6px 10px;">17.2 – 32.6 m/s</td><td style="padding:6px 10px;">8 – 11 級</td></tr>
+          <tr><td style="padding:6px 10px;">中度颱風</td><td style="padding:6px 10px;">32.7 – 50.9 m/s</td><td style="padding:6px 10px;">12 – 15 級</td></tr>
+          <tr><td style="padding:6px 10px;font-weight:700;color:#c2570f;">強烈颱風</td><td style="padding:6px 10px;font-weight:700;color:#c2570f;">≥ 51.0 m/s</td><td style="padding:6px 10px;font-weight:700;color:#c2570f;">≥ 16 級</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;font-size:12px;color:#92400e;">⚠️ 未達 17.2 m/s（蒲福 8 級）= 熱帶性低氣壓，還不算颱風</div>
     </div>
     <div class="ref-item">
       <b>颱風眼</b>：邊緣風力最強，向外愈弱；暴風範圍由中心向外到<b>平均7級風</b>處
@@ -302,7 +326,8 @@ tr:hover td{background:#fafffe;}
       <b>午後雷陣雨</b>：台灣<b>夏季</b>，白天熱力對流旺盛，午後在山區形成積雨雲，多發生在14:00–17:00。
     </div>
     <div class="ref-item info">
-      <b>濃霧定義</b>（世界氣象組織）：水平能見度 <b>低於 100 公尺</b>
+      <b>濃霧定義</b>（世界氣象組織）：水平能見度 <b>低於 200 公尺</b><span class="src">10S042</span><br>
+      <span style="font-size:12px;color:#6b7280;">❌ 100 公尺 → 錯；200 公尺才是正確答案</span>
     </div>
     <div class="ref-item">
       <b>低溫特報</b>：平地氣溫預計降至 <b>10°C 以下</b>發布
@@ -349,7 +374,7 @@ tr:hover td{background:#fafffe;}
         <td><b>HAPE</b><br><span class="note">高海拔肺水腫</span></td>
         <td>休息時也喘、乾咳→咳出粉紅色泡沫痰、極度疲憊<span class="src">17S069,17S092</span></td>
         <td class="highlight">粉紅色泡沫痰</td>
-        <td>立即下撤＋給氧；威而鋼/犀利士可<b>預防</b>HAPE<span class="src">17S124</span></td>
+        <td>立即下撤＋給氧<br><span style="font-size:12px;color:#374151;">發作時：<b>鈣離子阻斷劑</b>（硝苯地平）、威而鋼/犀利士<br>預防性：威而鋼/犀利士<span class="src">17S124</span></span></td>
       </tr>
     </tbody>
   </table>
@@ -362,6 +387,40 @@ tr:hover td{background:#fafffe;}
       ① 症狀完全緩解 → 可繼續上升但需觀察<br>
       ② 症狀持續不退 → 暫停上升、甚至放棄登頂<br>
       ③ 症狀持續惡化或步態不穩 → 立即下撤或求援
+    </div>
+    <div class="ref-item info">
+      <b>💊 藥物速查：預防性用藥 vs 發作時用藥</b>
+      <table style="margin-top:10px;font-size:13px;width:100%;border-collapse:collapse;">
+        <thead>
+          <tr>
+            <th style="background:#eff6ff;color:#1d4ed8;padding:6px 10px;text-align:left;">藥物</th>
+            <th style="background:#eff6ff;color:#1d4ed8;padding:6px 10px;text-align:left;">預防性使用</th>
+            <th style="background:#eff6ff;color:#1d4ed8;padding:6px 10px;text-align:left;">發作時使用</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:6px 10px;font-weight:700;">丹木斯<br><span style="font-weight:400;color:#6b7280;">Diamox</span></td>
+            <td style="padding:6px 10px;">✅ AMS / HACE / HAPE 預防<br><span style="color:#6b7280;font-size:12px;">出發前 24–48 小時開始服用</span></td>
+            <td style="padding:6px 10px;">✅ AMS 症狀緩解</td>
+          </tr>
+          <tr style="background:#fafffe;">
+            <td style="padding:6px 10px;font-weight:700;">類固醇<br><span style="font-weight:400;color:#6b7280;">地塞松 Dexamethasone</span></td>
+            <td style="padding:6px 10px;color:#9ca3af;">— 不建議預防性使用</td>
+            <td style="padding:6px 10px;">✅ HACE 緊急橋接（下撤前急救用）</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 10px;font-weight:700;">鈣離子阻斷劑<br><span style="font-weight:400;color:#6b7280;">硝苯地平 Nifedipine</span></td>
+            <td style="padding:6px 10px;">✅ 有 HAPE 病史者預防</td>
+            <td style="padding:6px 10px;">✅ HAPE 發作緊急處置</td>
+          </tr>
+          <tr style="background:#fafffe;">
+            <td style="padding:6px 10px;font-weight:700;">威而鋼 / 犀利士<br><span style="font-weight:400;color:#6b7280;">Sildenafil / Tadalafil</span></td>
+            <td style="padding:6px 10px;">✅ HAPE 預防<span class="src">17S124</span></td>
+            <td style="padding:6px 10px;">✅ HAPE 發作輔助（降肺動脈壓）</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div class="ref-item info">
       <b>預防方法</b>：緩慢上升（主因是快速上升）、預防性使用丹木斯<br>
@@ -431,18 +490,22 @@ tr:hover td{background:#fafffe;}
     </tbody>
   </table>
   <table style="margin-bottom:16px;">
-    <thead><tr><th>花色</th><th>植物</th></tr></thead>
+    <thead><tr><th>花色</th><th>植物（考題常考）</th></tr></thead>
     <tbody>
-      <tr><td><span style="color:#b45309;font-weight:700;">🟡 黃色</span></td><td>金毛杜鵑、台灣野百合（注意：百合多為白色，少數黃色）</td></tr>
+      <tr><td><span style="color:#b45309;font-weight:700;">🟡 黃色</span></td><td>金毛杜鵑、台灣野百合（少數黃色）<br><span style="font-size:12px;color:#6b7280;">❌ 玉山沙參不是黃色（是藍紫色）</span></td></tr>
       <tr><td><span style="color:#be185d;font-weight:700;">🔴 紅/粉</span></td><td>台灣杜鵑（紅色系）、玉山杜鵑（白至淡粉）</td></tr>
-      <tr><td><span style="color:#1d4ed8;font-weight:700;">🔵 藍/紫</span></td><td>阿里山龍膽（藍紫色）⚠️ 考題選項D缺字應為此</td></tr>
-      <tr><td><span style="color:#6b7280;font-weight:700;">⚪ 白色</span></td><td>玉山薄雪草（台灣雪絨花）、山月桃</td></tr>
+      <tr><td><span style="color:#1d4ed8;font-weight:700;">🔵 藍/紫</span></td><td>台灣龍膽、阿里山龍膽、<b>玉山沙參</b>、<b>高山倒提壺</b><span class="src">10S088/10S138</span></td></tr>
+      <tr><td><span style="color:#6b7280;font-weight:700;">⚪ 白色</span></td><td>玉山薄雪草（台灣雪絨花）、山月桃、<b>雪山翻白草</b><span class="src">10S138</span><br><span style="font-size:12px;color:#6b7280;">❌ 雪山翻白草不是藍/紫色，是白色</span></td></tr>
     </tbody>
   </table>
   <div class="ref-list">
     <div class="ref-item danger">
-      <b>有毒植物</b>：姑婆芋（誤食嚴重）、台灣天南星、石蒜（彼岸花）<br>
-      <b>有毒蕨類</b>：蕨（食用過多致癌；歐洲研究，不建議大量食用）
+      <b>有毒植物</b>：姑婆芋（誤食嚴重）、台灣天南星、石蒜（彼岸花）
+    </div>
+    <div class="ref-item danger">
+      <b>有毒蕨類：栗蕨</b>（不可食用，毒性強）<span class="src">10S143</span><br>
+      ✅ 可食蕨類：山蘇花、瓦氏鳳尾蕨、蘿蔓大蕨（這三個都不是有毒的）<br>
+      <span style="font-size:12px;color:#6b7280;">⚠️ 蕨（歐洲研究大量食用可能致癌，但與栗蕨不同）</span>
     </div>
     <div class="ref-item warn">
       <b>有刺植物</b>：刺蔥、懸鉤子（覆盆子）、薔薇科植物
@@ -451,8 +514,20 @@ tr:hover td{background:#fafffe;}
       <b>珍貴稀有植物（文化資產保存法）</b>：台灣水青岡、清水圓柏、南湖柳葉菜等。⚠️ 玉山圓柏、玉山杜鵑不在此列
     </div>
     <div class="ref-item info">
-      <b>陽性植物</b>（耐旱、喜日照，生長於南坡）：松類、相思樹；<br>
-      <b>陰性植物</b>：檜木、冷杉（生長於霧林帶濕冷環境）
+      <b>陽性植物</b>（耐旱、喜日照，生長於南坡）：松類、相思樹、台灣二葉松、刺柏、台灣馬醉木<br>
+      <b>陰性植物</b>（耐陰濕）：檜木、冷杉、<b>台灣八角金盤</b><span class="src">10S136</span><br>
+      <span style="font-size:12px;color:#6b7280;">❌ 台灣八角金盤不是陽性植物 → 是陰性植物</span>
+    </div>
+    <div class="ref-item">
+      <b>霧林帶（雲霧帶 2000–2500m）常見植物</b>：紅檜、台灣扁柏、台灣紅榨楓、台灣瘤足蕨、高山新木薑子<span class="src">10S145</span><br>
+      <span style="font-size:12px;color:#dc2626;">❌ 青剛櫟 不是霧林帶植物 → 是低海拔溫帶闊葉林植物</span>
+    </div>
+    <div class="ref-item info">
+      <b>岩壁石縫常見植物</b>：台灣五葉松、萬年松（卷柏科）、金毛杜鵑<span class="src">10S142</span>（以上皆是）
+    </div>
+    <div class="ref-item info">
+      <b>溪谷常見植物</b>：石菖蒲、台灣青芋、台灣石吊蘭<span class="src">10S139</span><br>
+      <span style="font-size:12px;color:#dc2626;">❌ 車桑子 不是溪谷植物 → 生長於乾燥陽坡</span>
     </div>
   </div>
 </div>
@@ -515,6 +590,11 @@ tr:hover td{background:#fafffe;}
         <td class="plant-name">🐟 台灣櫻花鉤吻鮭</td>
         <td>台灣唯一的<b>鮭科魚類</b>；分布大甲溪上游（武陵/七家灣溪）；冷水魚，水溫需低於 16°C</td>
         <td>❌ 淡水魚以外的分類 → 錯；❌ 南部山區 → 錯</td>
+      </tr>
+      <tr>
+        <td class="plant-name">🐐 台灣野山羊<br><span style="font-weight:400;font-size:12px;color:#6b7280;">（長鬃山羊）</span></td>
+        <td>台灣特有種；分布全島中高海拔（1,000–3,500m）；蹄子特化適合岩石；<b>牛科</b>動物（不是羊科）；草食性；台灣唯一野生牛科動物</td>
+        <td>❌ 鹿科 → 錯；❌ 羊科 → 錯（雖叫山羊但屬牛科）</td>
       </tr>
     </tbody>
   </table>
