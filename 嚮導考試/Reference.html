@@ -112,6 +112,7 @@ tr:hover td{background:#fafffe;}
     <a href="#altitude-sickness">🏔 高山症速查</a>
     <a href="#lightning">⚡ 閃電避難</a>
     <a href="#plants-id">🌿 植物辨識重點</a>
+    <a href="#animals">🐦 動物分布易錯點</a>
   </div>
 </div>
 
@@ -121,56 +122,62 @@ tr:hover td{background:#fafffe;}
     <span class="sec-icon">🌲</span>
     <div>
       <div class="sec-title">台灣垂直林帶分布</div>
-      <div class="sec-sub">由高到低：凍原 → 草原 → 針葉林 → 針闊混合 → 闊葉林<span class="src">10S063</span></div>
+      <div class="sec-sub">由高到低：凍原 → 草原 → 針葉林 → <b style="color:#2d5a45;">針闊混合（1800–2500m）</b> → 闊葉林<span class="src">10S063</span></div>
     </div>
   </div>
   <table>
     <thead>
-      <tr><th>海拔高度</th><th>帶名</th><th>代表植物</th><th>特徵</th></tr>
+      <tr><th>海拔高度</th><th>帶名</th><th>代表植物</th><th>代表動物</th><th>特徵</th></tr>
     </thead>
     <tbody>
       <tr>
         <td class="alt-range">3,400 m 以上</td>
         <td><span class="plant-name">高山寒原（凍原）</span></td>
         <td>玉山薄雪草、玉山小蘗、玉山圓柏（旗形）</td>
+        <td style="color:#1a3a2e;font-size:13px;"><b>酒紅朱雀</b>、金翼白眉、高山白腹鼠</td>
         <td>森林線以上，土薄保水差，強風，冰封季至少4個月<span class="src">10T006</span></td>
       </tr>
       <tr>
         <td class="alt-range">2,800–3,400 m</td>
         <td><span class="plant-name">高山草原</span></td>
         <td>玉山箭竹（1800–3800m）、高山芒、矮小耐寒植物</td>
+        <td style="color:#1a3a2e;font-size:13px;"><b>岩鷚</b>、雪山草蜥、台灣蜓蜥、高山白腹鼠<span class="src">10S071</span></td>
         <td>草皮型地表，氣溫偏低，水分保持不易<span class="src">10S071</span></td>
       </tr>
       <tr style="background:#f0fdf4;">
         <td class="alt-range">3,000 m 附近</td>
-        <td colspan="3">🔑 <b>冷杉 ↔ 鐵杉交界處</b>約3,000m，通常為冬季降雪海拔下限<span class="src">10T012</span></td>
+        <td colspan="4">🔑 <b>冷杉 ↔ 鐵杉交界處</b>約3,000m，通常為冬季降雪海拔下限。<b>帝雉（黑長尾雉）</b>3,000m 以上可見<span class="src">10T012 / 10S154</span></td>
       </tr>
       <tr>
         <td class="alt-range">2,500–3,000 m</td>
         <td><span class="plant-name">針葉林（上段）</span></td>
         <td>台灣冷杉（直立聳高）、鐵杉（傘狀樹冠）、雲杉</td>
+        <td style="color:#1a3a2e;font-size:13px;"><b>帝雉（黑長尾雉）</b>、星鴉、煤山雀、蜓蜥<span class="src">10S064</span></td>
         <td>看到鐵杉箭竹林 ≈ 2,500m<span class="src">13S033</span>；3,000m 可見冷杉+玉山圓柏<span class="src">13S052</span></td>
       </tr>
       <tr>
         <td class="alt-range">2,000–2,500 m</td>
-        <td><span class="plant-name">霧林帶（檜木林帶）</span></td>
+        <td><span class="plant-name">針闊混合（霧林帶）<br><span style="font-size:12px;color:#6b7280;">= 檜木林帶</span></span></td>
         <td>紅檜、台灣扁柏（雲霧帶常見）</td>
+        <td style="color:#1a3a2e;font-size:13px;"><b>黃喉貂</b>（塔塔加/排雲附近）、山椒魚（1,500m↑）<span class="src">10S080/10S083</span></td>
         <td>看到檜木林 ≈ 2,000–2,500m<span class="src">13S048</span>；全年相對溼度高、常瀰漫著霧氣</td>
       </tr>
       <tr style="background:#f0fdf4;">
         <td class="alt-range">2,000 m 以上</td>
-        <td colspan="3">🔑 看到<b>冷杉林</b>，表示海拔 ≥ 2,000m<span class="src">13S032</span></td>
+        <td colspan="4">🔑 看到<b>冷杉林</b>，表示海拔 ≥ 2,000m<span class="src">13S032</span>；<b>金翼白眉</b>分布 2,000m <b>以上</b>（⚠️ 以下為錯）<span class="src">10S096</span></td>
       </tr>
       <tr>
         <td class="alt-range">500–1,800 m</td>
         <td><span class="plant-name">溫帶闊葉林</span></td>
         <td>桑科、樟科（香楠、豬腳楠）、蕨類、筆筒樹</td>
+        <td style="color:#1a3a2e;font-size:13px;"><b>台灣獼猴</b>（低海拔較多）、松鼠、蛇、蜥蜴、小雨燕、5色鳥<span class="src">10S064</span></td>
         <td>氣候溫暖，土壤肥沃，物種最豐富</td>
       </tr>
       <tr>
         <td class="alt-range">0–500 m</td>
         <td><span class="plant-name">熱帶季風林</span></td>
         <td>榕樹、棋盤腳、林投</td>
+        <td style="color:#6b7280;font-size:13px;">—</td>
         <td>恆春半島、蘭嶼一帶</td>
       </tr>
     </tbody>
@@ -230,8 +237,8 @@ tr:hover td{background:#fafffe;}
     <div class="tl-item">
       <div class="tl-line"><div class="tl-dot blue" style="background:#2563eb;"></div><div class="tl-bar"></div></div>
       <div class="tl-content">
-        <div class="tl-time" style="color:#2563eb;">颱風距海岸 100km → 發布前 24 小時</div>
-        <div>氣象局發布 <b>海上颱風警報</b></div>
+        <div class="tl-time" style="color:#2563eb;">颱風預計 <b>24 小時內</b>侵台時</div>
+        <div>氣象局發布 <b>海上颱風警報</b>（颱風中心距台灣周圍海域尚遠，但已預警）</div>
       </div>
     </div>
     <div class="tl-item">
@@ -446,6 +453,84 @@ tr:hover td{background:#fafffe;}
     <div class="ref-item info">
       <b>陽性植物</b>（耐旱、喜日照，生長於南坡）：松類、相思樹；<br>
       <b>陰性植物</b>：檜木、冷杉（生長於霧林帶濕冷環境）
+    </div>
+  </div>
+</div>
+
+<!-- ⑧ 動物分布易錯點 -->
+<div class="sec" id="animals">
+  <div class="sec-head">
+    <span class="sec-icon">🐦</span>
+    <div>
+      <div class="sec-title">動物分布 × 易錯知識點</div>
+      <div class="sec-sub">考試最常出現的動物題，每一條都是雷點</div>
+    </div>
+  </div>
+  <table style="margin-bottom:18px;">
+    <thead>
+      <tr><th>動物</th><th>關鍵記憶點</th><th>常見陷阱（錯誤選項）</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="plant-name">🐦 金翼白眉</td>
+        <td>分布海拔 <b>2,000m <span class="highlight">以上</span></b><span class="src">10S096</span></td>
+        <td>❌ 以下 → 錯</td>
+      </tr>
+      <tr>
+        <td class="plant-name">🦅 帝雉（黑長尾雉）</td>
+        <td><b>3,000m</b> 以上可見；針葉林帶；雄雌羽色<b>不同</b>（雄鳥深藍紫、雌鳥褐色）<span class="src">10S154</span></td>
+        <td>❌ 1,000m 以下 → 錯；❌ 雌雄同色 → 錯</td>
+      </tr>
+      <tr>
+        <td class="plant-name">🐸 山椒魚</td>
+        <td><b>兩棲類</b>，分布 <b>1,500m 以上</b>冷涼溪流<span class="src">10S080</span></td>
+        <td>❌ 爬蟲類 → 錯（這是最常被選錯的）</td>
+      </tr>
+      <tr>
+        <td class="plant-name">🦌 水鹿</td>
+        <td>只有<b>雄鹿</b>有鹿角；台灣最大的鹿科動物<span class="src">10S085</span></td>
+        <td>❌ 雌雄都有鹿角 → 錯</td>
+      </tr>
+      <tr>
+        <td class="plant-name">🐻 台灣黑熊</td>
+        <td><b>不冬眠</b>；雜食性（不是肉食性）；V形白紋是特徵</td>
+        <td>❌ 冬眠 → 錯；❌ 純肉食性 → 錯</td>
+      </tr>
+      <tr>
+        <td class="plant-name">🐝 虎頭蜂</td>
+        <td><b>秋天</b>最危險（蜂巢最大、蜂群最多）<span class="src">10S092</span></td>
+        <td>❌ 春夏之交最危險 → 錯</td>
+      </tr>
+      <tr>
+        <td class="plant-name">🐒 台灣獼猴</td>
+        <td><b>低海拔</b>數量比高海拔多；雜食性<span class="src">10S147</span></td>
+        <td>❌ 高海拔最多 → 錯</td>
+      </tr>
+      <tr>
+        <td class="plant-name">🦡 黃喉貂</td>
+        <td>中高海拔（塔塔加 / 排雲山莊一帶）；雜食性；<b>日行性</b>為主<span class="src">10S083</span></td>
+        <td>❌ 夜行性 → 錯</td>
+      </tr>
+      <tr>
+        <td class="plant-name">🐟 台灣櫻花鉤吻鮭</td>
+        <td>台灣唯一的<b>鮭科魚類</b>；分布大甲溪上游（武陵/七家灣溪）；冷水魚，水溫需低於 16°C</td>
+        <td>❌ 淡水魚以外的分類 → 錯；❌ 南部山區 → 錯</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="ref-list">
+    <div class="ref-item warn">
+      <b>森林界線（3,400m）附近可見動物</b>：酒紅朱雀、煤山雀、高山白腹鼠、華南鼬鼠<br>
+      ⚠️ <b>獼猴和蛇類</b>在此海拔<b>不常見</b><span class="src">10S061</span>
+    </div>
+    <div class="ref-item info">
+      <b>台灣特有種鳥類</b>記憶口訣：帝（帝雉）藍（台灣藍鵲）金（金翼白眉）岩（岩鷚）煤（煤山雀）星（星鴉）酒（酒紅朱雀）
+    </div>
+    <div class="ref-item">
+      <b>遇到虎頭蜂</b>處理原則：立即<b>快速離開</b>該區域（不可拍打、不可奔跑繞圈），用衣物遮頭部，往反方向直跑
+    </div>
+    <div class="ref-item danger">
+      <b>遇到台灣黑熊</b>：不可奔跑；慢慢後退；保持目光接觸；不要裝死（台灣黑熊不同於北美熊種）
     </div>
   </div>
 </div>
