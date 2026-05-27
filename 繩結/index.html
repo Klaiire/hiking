@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>繩結速查｜嚮導考試 × 中華山岳進階</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;}
+body{font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+  background:linear-gradient(135deg,#1a2a3e 0%,#2d3f5a 100%);
+  color:#1f2937;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:960px;margin:0 auto;padding:24px 18px 80px;}
+
+.topbar{color:#e0eaff;margin-bottom:22px;}
+.topbar h1{font-size:22px;font-weight:800;margin-top:6px;}
+.badge{display:inline-block;background:rgba(255,255,255,.15);padding:5px 14px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:6px;}
+
+.toc{background:rgba(255,255,255,.1);border-radius:16px;padding:18px 22px;margin-bottom:24px;color:#e0eaff;}
+.toc h3{font-size:14px;font-weight:700;margin-bottom:12px;opacity:.8;}
+.toc-links{display:flex;flex-wrap:wrap;gap:8px;}
+.toc-links a{color:#e0eaff;text-decoration:none;background:rgba(255,255,255,.15);
+  padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;transition:background .15s;}
+.toc-links a:hover{background:rgba(255,255,255,.28);}
+
+.sec{background:#fff;border-radius:20px;padding:26px 26px 22px;
+  box-shadow:0 16px 40px rgba(0,0,0,.22);margin-bottom:20px;scroll-margin-top:16px;}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.sec-icon{font-size:26px;}
+.sec-title{font-size:20px;font-weight:800;color:#1a2a3e;}
+.sec-sub{font-size:13px;color:#6b7280;margin-top:2px;}
+
+/* 卡片網格 */
+.knot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.kcard{background:#f8fafc;border-radius:14px;padding:16px;border-left:4px solid #94a3b8;}
+.kcard.green{border-left-color:#059669;}
+.kcard.blue{border-left-color:#2563eb;}
+.kcard.orange{border-left-color:#d97706;}
+.kcard.purple{border-left-color:#7c3aed;}
+.kcard.red{border-left-color:#dc2626;}
+.kname{font-size:15px;font-weight:800;color:#1a2a3e;margin-bottom:3px;}
+.kname-en{font-size:11px;color:#9ca3af;font-weight:400;margin-left:5px;}
+.ktag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;font-weight:700;margin:0 4px 8px 0;}
+.tag-g{background:#d1fae5;color:#065f46;}
+.tag-b{background:#dbeafe;color:#1e40af;}
+.tag-o{background:#fef3c7;color:#92400e;}
+.tag-p{background:#ede9fe;color:#5b21b6;}
+.tag-r{background:#fee2e2;color:#991b1b;}
+.tag-pk{background:#fce7f3;color:#9d174d;}
+.kbody{font-size:13px;color:#374151;line-height:1.75;}
+.kbody b{color:#1a2a3e;}
+ul.kp{list-style:none;padding:0;margin:6px 0 0;}
+ul.kp li{font-size:12px;color:#6b7280;padding:2px 0 2px 15px;position:relative;line-height:1.5;}
+ul.kp li::before{content:"›";position:absolute;left:0;color:#9ca3af;font-weight:700;}
+ul.kp li.w{color:#b45309;}
+ul.kp li.w::before{content:"⚠";left:-1px;}
+ul.kp li.ok{color:#065f46;}
+ul.kp li.ok::before{content:"✓";}
+.sbadge{display:inline-block;background:#f1f5f9;border-radius:6px;font-size:12px;color:#475569;padding:3px 8px;margin-top:8px;font-weight:600;}
+
+/* 參考條目 */
+.refs{display:flex;flex-direction:column;gap:10px;}
+.ri{background:#f8fafc;border-radius:12px;padding:13px 16px;border-left:4px solid #94a3b8;font-size:14px;line-height:1.75;}
+.ri b{color:#1a2a3e;}
+.ri.blue{border-left-color:#2563eb;background:#eff6ff;}
+.ri.orange{border-left-color:#d97706;background:#fffbeb;}
+.ri.red{border-left-color:#dc2626;background:#fef2f2;}
+.ri.green{border-left-color:#059669;background:#f0fdf4;}
+
+/* 步驟卡 */
+.step-card{background:#f0f9ff;border-radius:14px;padding:18px;border:1.5px solid #bae6fd;margin-bottom:12px;}
+.step-title{font-size:15px;font-weight:800;color:#0369a1;margin-bottom:12px;}
+.step-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:8px;font-size:13px;line-height:1.6;}
+.snum{background:#0369a1;color:#fff;border-radius:50%;width:22px;height:22px;
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;margin-top:1px;}
+.step-card.orange{background:#fffbeb;border-color:#fde68a;}
+.step-card.orange .step-title{color:#92400e;}
+.step-card.orange .snum{background:#d97706;}
+.step-card.green{background:#f0fdf4;border-color:#bbf7d0;}
+.step-card.green .step-title{color:#065f46;}
+.step-card.green .snum{background:#059669;}
+
+/* 對比表 */
+.compare-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:4px;}
+.compare-table th{background:#f0fdf4;color:#166534;padding:8px 12px;text-align:left;border-bottom:2px solid #bbf7d0;font-weight:800;}
+.compare-table td{padding:8px 12px;border-bottom:1px solid #f0f0f0;vertical-align:top;line-height:1.6;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table tr:hover td{background:#fafffe;}
+
+/* 強力標記 */
+.hl{background:#fef9c3;border-radius:3px;padding:1px 4px;font-weight:700;}
+.warn-box{background:#fff7ed;border:1.5px solid #fed7aa;border-radius:10px;padding:12px 14px;font-size:13px;color:#92400e;margin-top:10px;line-height:1.7;}
+.info-box{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:10px;padding:12px 14px;font-size:13px;color:#1e40af;margin-top:10px;line-height:1.7;}
+.tip-box{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:10px;padding:12px 14px;font-size:13px;color:#065f46;margin-top:10px;line-height:1.7;}
+
+/* 裝備表 */
+.gear-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+.gear-card{background:#f8fafc;border-radius:12px;padding:14px 16px;border-top:3px solid #2563eb;}
+.gear-card.orange{border-top-color:#d97706;}
+.gear-card.green{border-top-color:#059669;}
+.gc-title{font-size:13px;font-weight:800;color:#1a2a3e;margin-bottom:8px;}
+.gc-body{font-size:12px;color:#374151;line-height:1.8;}
+
+@media(max-width:600px){
+  .sec{padding:18px 14px;}
+  .knot-grid{grid-template-columns:1fr;}
+  .gear-grid{grid-template-columns:1fr 1fr;}
+}
+</style></head>
+<body>
+<div class="wrap">
+
+<div class="topbar">
+  <span class="badge">🪢 繩結速查手冊</span>
+  <h1>中華山岳越安全進階 × 嚮導考試</h1>
+</div>
+
+<div class="toc">
+  <h3>📌 快速跳轉</h3>
+  <div class="toc-links">
+    <a href="#gear">🎒 裝備</a>
+    <a href="#friction">🔁 摩擦結</a>
+    <a href="#descender">⬇️ 確保器</a>
+    <a href="#belay-op">🧲 確保操作</a>
+    <a href="#friction-app">⚙️ 摩擦結應用</a>
+    <a href="#ascend">⬆️ 普魯士上攀</a>
+    <a href="#asc-to-desc">🔄 上升轉下降</a>
+    <a href="#anchor">⚓ 固定點</a>
+    <a href="#loop-knots">🪢 固定圈結</a>
+    <a href="#italian">🎯 義大利半扣詳解</a>
+    <a href="#pulley">🔧 滑輪系統</a>
+  </div>
+</div>
+
+<!-- ① 裝備 -->
+<div class="sec" id="gear">
+  <div class="sec-head"><span class="sec-icon">🎒</span>
+    <div><div class="sec-title">裝備清單</div>
+    <div class="sec-sub">進階課程完整配備</div></div>
+  </div>
+  <div class="gear-grid">
+    <div class="gear-card">
+      <div class="gc-title">摩擦繩陶（7mm）</div>
+      <div class="gc-body">
+        · <b>1m</b> × 1 → Auto block 用<br>
+        · <b>1.2m</b> × 1 → 普魯士胸繩<br>
+        · <b>2m</b> × 1 → 克式胸繩<br>
+        · <b>2m</b> × 1 → 普魯士腳繩<br>
+        <span style="color:#6b7280;font-size:11px;">全部 7mm，雙漁人結成環</span>
+      </div>
+    </div>
+    <div class="gear-card green">
+      <div class="gc-title">金屬裝備</div>
+      <div class="gc-body">
+        · D鉤（有鎖）× 5<br>
+        · O環（HMS 梨形有鎖）× 2<br>
+        · 無鎖 D鉤（22KN）× 若干<br>
+        · 普魯士滑輪（有齒）× 1<br>
+        <span style="color:#6b7280;font-size:11px;">初學建議犁型 D鉤（有 BH 標示）</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;">
+        <div>
+          <img src="IMG_6585.png" alt="犁型有鎖D鉤"
+            style="width:100%;border-radius:8px;object-fit:cover;max-height:140px;">
+          <div style="font-size:10px;color:#6b7280;margin-top:3px;">▲ 犁型有鎖D鉤（BH標示）</div>
+        </div>
+        <div>
+          <img src="IMG_6586.png" alt="O環 HMS 有鎖"
+            style="width:100%;border-radius:8px;object-fit:cover;max-height:140px;">
+          <div style="font-size:10px;color:#6b7280;margin-top:3px;">▲ O環（調裝備用）</div>
+        </div>
+      </div>
+    </div>
+    <div class="gear-card orange">
+      <div class="gc-title">繩帶</div>
+      <div class="gc-body">
+        · 摩擦繩：8mm / 80cm<br>
+        · Daisy chain（8KN，max 120cm）<br>
+        · sling 1.8m × 1（替代 Daisy）<br>
+        · 7mm 輔助繩 1.8-2m（克式+半扣）
+      </div>
+    </div>
+    <div class="gear-card">
+      <div class="gc-title">吊帶 & 確保器</div>
+      <div class="gc-body">
+        · 攀岩座式吊帶（OCUN 推薦）<br>
+        <span style="font-size:11px;color:#6b7280;">前方鉤環為「直向」= ATC 用</span><br>
+        · 溪降吊帶：前方鉤環「橫向」= 8字環用<br>
+        · 手套（半指 ok）：最好真皮
+      </div>
+      <div style="margin-top:10px;">
+        <div style="font-size:11px;font-weight:700;color:#374151;margin-bottom:6px;">📌 安裝：長邊在下 = 受力後長邊在外</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          <div>
+            <img src="IMG_0462.png" alt="吊帶ATC安裝示範"
+              style="width:100%;border-radius:8px;object-fit:cover;max-height:150px;">
+            <div style="font-size:10px;color:#6b7280;margin-top:3px;">▲ 整體穿戴示範</div>
+          </div>
+          <div>
+            <img src="IMG_0454.png" alt="ATC長邊朝下近拍"
+              style="width:100%;border-radius:8px;object-fit:cover;max-height:150px;">
+            <div style="font-size:10px;color:#6b7280;margin-top:3px;">▲ ATC 長邊朝下近拍</div>
+          </div>
+        </div>
+        <div style="margin-top:8px;">
+          <div style="font-size:11px;font-weight:700;color:#374151;margin-bottom:4px;">🎬 *Fall：右手用力往下拉</div>
+          <video src="IMG_0459.mov" controls playsinline
+            style="width:100%;border-radius:8px;max-height:200px;background:#000;">
+            瀏覽器不支援此影片格式
+          </video>
+        </div>
+        <div style="margin-top:8px;">
+          <div style="font-size:11px;font-weight:700;color:#374151;margin-bottom:4px;">🎬 確保操作示範</div>
+          <video src="IMG_1238.mp4" controls playsinline
+            style="width:100%;border-radius:8px;max-height:200px;background:#000;">
+            瀏覽器不支援此影片格式
+          </video>
+        </div>
+      </div>
+    </div>
+    <div class="gear-card green">
+      <div class="gc-title">自我確保繩</div>
+      <div class="gc-body">
+        · Daisy chain（8KN，最長 120cm）<br>
+        · <b>替代：</b>1.8m sling 打單8縮成 120cm<br>
+        · 任老：angle chain 22KN<br>
+        <span style="color:#dc2626;font-size:11px;">⚠️ Daisy 僅自我確保，不可當主繩</span>
+      </div>
+    </div>
+    <div class="gear-card orange">
+      <div class="gc-title">裝備代購（約半價）</div>
+      <div class="gc-body">
+        FB 社團：攀岩軍火庫<br>
+        聯絡人：黃品曦<br>
+        · 可裝 30m 主繩的 20L 包<br>
+        · 溯溪鞋
+      </div>
+    </div>
+  </div>
+  <div class="warn-box" style="margin-top:14px;">
+    ⚠️ 確保器種類：<b>攀岩只能用豬鼻子（ATC），不能用8字環</b>。原因：確保動作8字環（4動）比豬鼻子（3動）多一動，Fall 時更難完成制動。<br>
+    登山過地形：8字環豬鼻子皆可。溪降：多用8字環（繩徑細）。
+  </div>
+</div>
+
+<!-- ② 摩擦結 -->
+<div class="sec" id="friction">
+  <div class="sec-head"><span class="sec-icon">🔁</span>
+    <div><div class="sec-title">摩擦結（Friction Hitch）</div>
+    <div class="sec-sub">摩擦力：普魯士 ＞ 克式 ＞ Auto Block</div></div>
+  </div>
+
+  <div style="overflow-x:auto;margin-bottom:16px;">
+  <table class="compare-table">
+    <thead><tr><th>繩結</th><th>方向</th><th>繩圈長度</th><th>圈數</th><th>能否單獨使用</th><th>特色</th></tr></thead>
+    <tbody>
+      <tr><td><b>普魯士結</b></td><td>雙向</td><td>1.2m（胸）/ 2m（腳）</td><td>3圈</td><td><span class="hl">✅ 可</span></td><td>摩擦力最強，戴手套好操作</td></tr>
+      <tr><td><b>克式結</b></td><td>單向</td><td>2m（胸）</td><td>3圈共6股</td><td><span style="color:#dc2626;font-weight:700;">❌ 需配下降器</span></td><td>可用扁帶；繩結在主繩左方</td></tr>
+      <tr><td><b>Auto Block</b></td><td>單向</td><td>1m</td><td>4–5圈</td><td><span style="color:#dc2626;font-weight:700;">❌ 需配下降器</span></td><td>手放開自動鎖，下降備份首選</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="knot-grid">
+    <div class="kcard green">
+      <div class="kname">普魯士結<span class="kname-en">Prusik</span></div>
+      <span class="ktag tag-g">摩擦結</span><span class="ktag tag-pk">考試必考</span>
+      <div class="kbody">
+        橫拿主繩，左手握漁人結左側 + 右手握繩圈（雙漁人結處）由己而外繞 <b>3圈</b>，第3圈繞回己處，右手改拉雙漁人結側收緊，再整理繩結。
+      </div>
+      <ul class="kp">
+        <li>輔助繩比主繩細 <b>2–3mm</b>（7mm 配 10mm）</li>
+        <li class="ok">雙向抓繩，戴手套/冰爪好操作</li>
+        <li>移動方式：抓住靠近繩結的雙股繩，提起同高後往主繩方向「吐」使繩結鬆開</li>
+        <li class="w">不要抓繩結本身移動</li>
+        <li>普魯士太粗：增加圈數 or V下方打單結</li>
+        <li>普魯士太長縮短：工程蝴蝶結 or V雙環8（兔耳結）</li>
+      </ul>
+    </div>
+
+    <div class="kcard blue">
+      <div class="kname">克式結<span class="kname-en">Klemheist</span></div>
+      <span class="ktag tag-b">摩擦結</span><span class="ktag tag-pk">考試必考</span>
+      <div class="kbody">
+        繩圈放在左邊靠近尾端，右手抓無繩結繩圈 1/3 處，沿著主繩「由下往上繞」<b>3圈共6股</b>，最後「下繩穿入上繩」後「往下拉」。
+      </div>
+      <ul class="kp">
+        <li>摩擦力介於普魯士與 auto block 之間</li>
+        <li>打好後繩結在主繩<b>左方</b></li>
+        <li class="ok">可用扁帶（普魯士不行）</li>
+        <li class="w">不可單獨使用，需結合下降器/義大利半扣</li>
+        <li class="w">放在下降器/義大利半扣下方</li>
+      </ul>
+    </div>
+
+    <div class="kcard orange">
+      <div class="kname">Auto Block<span class="kname-en">French Prusik</span></div>
+      <span class="ktag tag-o">摩擦結（下方確保）</span>
+      <div class="kbody">
+        繩圈先放入 D鉤 → 由下往上繞 <b>4–5圈</b> → 最後繩尾繩圈扣入 D鉤。
+      </div>
+      <ul class="kp">
+        <li>手放開 → 自動鎖緊</li>
+        <li>打在下降器<b>下方</b></li>
+        <li class="w">不可單獨使用，配下降器</li>
+        <li>「有繩頭的那邊先扣到腿環裡」，再開始繞，然後勾起來</li>
+        <li>制動短繩：打好後 <b>3個拳頭內（30cm）</b> + 20KN 無鎖鉤環</li>
+        <li class="ok">可取代 MMO，手放開直接制動</li>
+      </ul>
+      <div class="warn-box">⚠️ Auto block 長度不可高於下降器最下方，否則無法制動</div>
+    </div>
+  </div>
+</div>
+
+<!-- ③ 確保器 -->
+<div class="sec" id="descender">
+  <div class="sec-head"><span class="sec-icon">⬇️</span>
+    <div><div class="sec-title">確保器操作</div>
+    <div class="sec-sub">豬鼻子（ATC）× 8字環</div></div>
+  </div>
+
+  <div class="knot-grid">
+    <div class="kcard blue">
+      <div class="kname">豬鼻子 🐽<span class="kname-en">ATC</span></div>
+      <span class="ktag tag-b">攀岩確保首選</span>
+      <div class="kbody"><b>安裝：</b><br>
+        · 長邊在下面 = 受力後長邊在外面<br>
+        · 右手確保穿右邊；左手確保穿左邊<br>
+        · 大D鉤朝自己 or 朝外
+      </div>
+      <ul class="kp">
+        <li class="ok">歐式確保（3動）比美式少一動，Fall 機率小</li>
+        <li><b>歐式1</b>：右手將繩往「前」圓弧狀拉出豬鼻子</li>
+        <li><b>歐式2</b>：左手鬆受力繩，往下到右手下方</li>
+        <li><b>歐式3</b>：右手往上靠近豬鼻子（留一個拳頭距離）</li>
+        <li class="w">Fall：右手用力往下拉</li>
+      </ul>
+    </div>
+
+    <div class="kcard">
+      <div class="kname">8字環<span class="kname-en">Figure 8 Device</span></div>
+      <span class="ktag tag-o">溪降/登山</span>
+      <div class="kbody"><b>安裝步驟：</b><br>
+        ① 先將大頭鉤進 D鉤<br>
+        ② 取主繩成章魚頭，由下往上套進大頭，章魚頭從近己往遠套進小頭<br>
+        ③ 從 D鉤取出大頭，往下翻轉讓小頭朝下<br>
+        ④ 將小頭套進 D鉤<br>
+        ✅ 完成後主繩呈現 <b>U字型</b>
+      </div>
+    </div>
+
+    <div class="kcard green">
+      <div class="kname">義大利半扣<span class="kname-en">Munter Hitch</span></div>
+      <span class="ktag tag-g">緊急確保首選</span><span class="ktag tag-pk">考試必考</span>
+      <div class="kbody">
+        必須搭配 <b>HMS 梨形有鎖鉤</b><br>
+        下降需搭配騾子結（MMO）暫停制動
+      </div>
+      <ul class="kp">
+        <li class="ok">緊急確保：沒帶確保器時使用</li>
+        <li class="w">長距離下降繩會扭轉</li>
+        <li class="ok">雙股義大利半扣 → 下降更穩快</li>
+        <li>詳細打法見「義大利半扣詳解」章節</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info-box" style="margin-top:14px;">
+    <b>攀岩上攀口令：</b><br>
+    （攀）準備攀登 → （保）確保完成 → （攀）開始攀登 → （保）攀登<br><br>
+    上攀者：檢查確保者大D有無鎖緊<br>
+    確保者：檢查上攀者雙8有無打好 / 吊帶繩尾有無收好
+  </div>
+</div>
+
+<!-- ④ 確保操作要點 -->
+<div class="sec" id="belay-op">
+  <div class="sec-head"><span class="sec-icon">🧲</span>
+    <div><div class="sec-title">確保操作要點</div>
+    <div class="sec-sub">雙8入繩結 / 垂降確保順序</div></div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-title">📌 雙8字入繩結（攀登者自己身上）</div>
+    <div class="step-row"><div class="snum">1</div><div>先打單8：右手順轉兩圈 → 從圈中拉出繩尾</div></div>
+    <div class="step-row"><div class="snum">2</div><div>穿繩雙8：拿繩尾，確保環怎麼穿就怎麼穿；單8怎麼穿來就怎麼穿回去</div></div>
+    <div class="step-row"><div class="snum">3</div><div>剩餘繩尾打單結（太長可打兩圈），繩尾約一個拳頭長（10cm）</div></div>
+    <div class="tip-box">✅ 國外版本：繩尾夠長即可，不一定要打單結</div>
+  </div>
+
+  <div class="step-card orange">
+    <div class="step-title">📌 垂降確保順序</div>
+    <div class="step-row"><div class="snum">1</div><div><b>自我確保</b>（螃蟹含鉤環要比手臂短，受力後手才解得開）</div></div>
+    <div class="step-row"><div class="snum">2</div><div>確認<b>固定點</b> ok</div></div>
+    <div class="step-row"><div class="snum">3</div><div>垂降繩有<b>到地上</b></div></div>
+    <div class="step-row"><div class="snum">4</div><div>垂降制動繩距比確保繩距離<b>要短</b>（確保繩是鬆的，才能單手解確保）</div></div>
+    <div class="step-row"><div class="snum">5</div><div><b>受力測試</b>：半扣拉繩圈縮短，讓垂降繩緊、確保繩鬆，才能解確保</div></div>
+  </div>
+
+  <div class="refs">
+    <div class="ri orange"><b>下方二確（下方確保者）</b>：雙手鬆握主繩，眼看上方垂降者；一旦 Fall → 立刻往下拉（幫他拉制動）</div>
+    <div class="ri"><b>下降時不同手勢摩擦力</b>：大腿五圈摩擦力最強，手部制動次之</div>
+  </div>
+</div>
+
+<!-- ⑤ 摩擦結應用 -->
+<div class="sec" id="friction-app">
+  <div class="sec-head"><span class="sec-icon">⚙️</span>
+    <div><div class="sec-title">摩擦結應用</div>
+    <div class="sec-sub">緩降系統 × 上方確保 × 下方確保</div></div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-title">📌 緩降系統 1：克式 + 半扣（上方確保）</div>
+    <div class="kbody" style="margin-bottom:12px;">用於換繩時，底下結合下降器（8字、天使、惡魔、蝙蝠）<br>克式與半扣中間要隔 <b>一個拳頭寬</b> 的距離</div>
+    <div class="step-row"><div class="snum">下</div><div>左手（輔助下降手）兩指輕扣克式、掌根輕貼半扣，將繩結滑到靠近義大利半扣</div></div>
+    <div class="step-row"><div class="snum">停</div><div>懸空制動暫停：左手兩指輕扣克式、掌根輕貼半扣，滑離義大利半扣直到緊繃；右手維持在右腿髖部附近，直到左手制動完畢再放手</div></div>
+  </div>
+
+  <div class="step-card green">
+    <div class="step-title">📌 緩降系統 2：Auto Block（下方確保）</div>
+    <div class="kbody" style="margin-bottom:12px;">打在下降器（義大利半扣、豬鼻子、8字環）「<b>下面</b>」<br>
+    · 下降器在確保環上 → auto block 在吊帶腰環+腿環上<br>
+    · 下降器在 Daisy chain 上（不超過胸口） → auto block 在確保環上</div>
+    <div class="step-row"><div class="snum">下</div><div>左手兩指操作 auto block，右手操作義大利半扣下降</div></div>
+    <div class="step-row"><div class="snum">停</div><div>懸空暫停：右手把下方主繩<b>反折</b>，令 auto block 咬住主繩，再慢慢放右手</div></div>
+    <div class="tip-box">✅ 若擔心，可在 auto block 下方打滑結 + 單結備份</div>
+  </div>
+
+  <div class="step-card orange">
+    <div class="step-title">📌 緩降系統 3：大腿五圈（第三隻手）</div>
+    <div class="step-row"><div class="snum">1</div><div>第一圈：由大腿<b>內側往外</b>繞</div></div>
+    <div class="step-row"><div class="snum">2</div><div>後面四圈：由大腿前側往己側繞（纏緊！到腿痛）</div></div>
+    <div class="step-row"><div class="snum">3</div><div>拿繩尾穿過 2–3 圈大腿繩圈後打<b>單滑結 + 單結</b>鎖死</div></div>
+  </div>
+</div>
+
+<!-- ⑥ 普魯士上攀 -->
+<div class="sec" id="ascend">
+  <div class="sec-head"><span class="sec-icon">⬆️</span>
+    <div><div class="sec-title">普魯士繩上攀</div>
+    <div class="sec-sub">胸繩 1.2m × 腳繩 2m（不要太長，上攀速度快）</div></div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-title">📌 上攀步驟</div>
+    <div class="step-row"><div class="snum">1</div><div><b>確保（胸繩 + 定位）</b>：先上、最後解。1.2m 普魯士打好後，扣上胸繩往上吐一點再往下坐（定位防撞岩壁）</div></div>
+    <div class="step-row"><div class="snum">2</div><div>往下坐成<b>懸空狀態</b>後，再綁 2m 腳繩（懸空狀態下打普魯士結）</div></div>
+    <div class="step-row"><div class="snum">3</div><div><b>上攀</b>：腳往下踩 + 左手伸直往上抓主繩，使身體垂直，省力。胸繩結上推不超過頭頂</div></div>
+    <div class="step-row"><div class="snum">4</div><div><b>下降</b>：腳繩先往上踩一點；胸繩下推不超過肚臍上一拳；腳繩下推不超過膝蓋（大腿左右）</div></div>
+  </div>
+
+  <div class="warn-box">
+    ⚠️ 普魯士移動方式：抓靠近繩結的雙股繩，提起同高後往主繩方向「吐」 → 繩結鬆開可移動<br>
+    吐完後往下拉確認咬緊再移動。<b>不要抓繩結本身。</b>
+  </div>
+</div>
+
+<!-- ⑦ 上升轉下降 -->
+<div class="sec" id="asc-to-desc">
+  <div class="sec-head"><span class="sec-icon">🔄</span>
+    <div><div class="sec-title">上升轉下降（受力轉換）</div>
+    <div class="sec-sub">三種方法：傳統 / 克式+半扣 / 過繩結</div></div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-title">📌 方法1：傳統上升轉下降</div>
+    <div class="step-row"><div class="snum">1</div><div>1.2m 胸繩（普魯士）→ 懸空 → 上 2m 腳繩（普魯士）→ 上攀</div></div>
+    <div class="step-row"><div class="snum">2</div><div>放雙手 + 腳拿出繩圈後，在腳繩<b>下方</b>上下降器（ATC or 8字環）<br>⚠️ 若同一確保環，下降器要在胸繩環的<b>外面</b></div></div>
+    <div class="step-row"><div class="snum">3</div><div>制動繩由內而外纏右腳 <b>5圈</b>（纏緊到腿痛），繩尾穿過 2–3 圈後打單滑結 + 單結鎖緊</div></div>
+    <div class="step-row"><div class="snum">4</div><div>踩腳繩往上，將胸繩往下拉使之不受力 → 解腳繩 → 解胸繩（可解可不解）</div></div>
+    <div class="step-row"><div class="snum">5</div><div>（ATC）左手抓緊 ATC 壓繩，右手解大腿五圈下降<br>（8字環）左手抓 8字下面制動繩，右手解大腿五圈下降</div></div>
+  </div>
+
+  <div class="step-card green">
+    <div class="step-title">📌 方法2：克式 + 半扣上升轉下降（較快）</div>
+    <div class="step-row"><div class="snum">1</div><div>2m 胸繩（克式+半扣）→ 懸空 → 上 2m 腳繩（普魯士）→ 上攀</div></div>
+    <div class="step-row"><div class="snum">2</div><div>放雙手後解腳繩 → 另取 D鉤 + 下降器扣上吊帶確保環（同一個：扣在外面）</div></div>
+    <div class="step-row"><div class="snum">3</div><div>右手抓緊主繩靠近髖部制動 + 左手<b>兩指輕推克式 + 掌根輕抵半扣</b>直到全鬆弛，即可下降</div></div>
+  </div>
+
+  <div class="step-card orange">
+    <div class="step-title">📌 方法3：過繩結🪢 上升轉下降（最複雜）</div>
+    <div class="kbody" style="margin-bottom:10px;"><b>上升遇到繩結：</b></div>
+    <div class="step-row"><div class="snum">1</div><div>在繩結🪢<b>上方</b>打克式+半扣+掛 D鉤</div></div>
+    <div class="step-row"><div class="snum">2</div><div>踩腳繩往上撐，將克式+半扣的 D鉤掛入確保環（同一個：下降器在外面）</div></div>
+    <div class="step-row"><div class="snum">3</div><div>解腳繩，在繩結🪢上方打普魯士結 → 繼續上攀</div></div>
+    <div class="kbody" style="margin:10px 0;"><b>下降遇到繩結：</b></div>
+    <div class="step-row"><div class="snum">1</div><div>在胸繩<b>下方</b>上 ATC（同一確保環：ATC 在外面）</div></div>
+    <div class="step-row"><div class="snum">2</div><div>確認 1.7m 克式+半扣受力不太緊 → 解腳繩 → 克式+半扣配合 ATC 下降到繩結🪢</div></div>
+    <div class="step-row"><div class="snum">3</div><div>解 ATC，換到繩結🪢<b>下方</b> → ATC 上打 Hot lock（⚠️ 打在繩結下方、ATC 上方）</div></div>
+    <div class="step-row"><div class="snum">4</div><div>解胸繩（換 ATC+Hot lock 受力）→ 解 Hot lock → ATC 制動下降</div></div>
+    <div class="warn-box">⚠️ 時時確認 D鉤無橫置；克式+半扣繩結型態有無亂；Hot lock 不要打在繩結🪢上（受力後很難解開）</div>
+  </div>
+
+  <div class="refs">
+    <div class="ri blue"><b>Hot Lock</b>（ATC 動態制動）：左手壓住 ATC 制動繩 + 右手拿制動繩成繩圈穿進 ATC 的 D鉤，「往外轉半圈壓繩」後從繩圈內拿出繩尾 → 拉緊靠緊 ATC → 在受力繩端打單結鎖緊（= 在 D鉤內打 MMO）</div>
+    <div class="ri red"><b>受力後卡住解法</b>：① 固定點預先打義大利半扣 + MMO → 可解固定點制動放人下來；② LRH（負重釋放系統）</div>
+  </div>
+</div>
+
+<!-- ⑧ 固定點 -->
+<div class="sec" id="anchor">
+  <div class="sec-head"><span class="sec-icon">⚓</span>
+    <div><div class="sec-title">固定點建立</div>
+    <div class="sec-sub">SERENE-A × 角度 × 均力系統</div></div>
+  </div>
+
+  <div class="refs">
+    <div class="ri blue">
+      <b>SERENE-A</b>：Solid（穩固）· Equalized（均力）· Redundant（備份）· Efficient · No Extension · <b>Angles &lt; 60°</b>
+    </div>
+    <div class="ri orange">
+      <b>⚠️ 固定點角度</b>：兩支點夾角 <b>≤ 60°</b>（最好），絕不超過 90°<br>
+      手勢量角：🇯🇵 日本7 = 90°、Rocker = 60°、✌️ = 30°、六 = 120°<br>
+      120° 時每個支點承受 100% 的力（= 完全沒分擔）
+    </div>
+    <div class="ri red">
+      <b>「雞蛋不要放同一個籃」</b>：不同固定點、越多越好<br>
+      可以繞固定點就不要打栓牛（栓牛讓繩受力減少 50–70%）
+    </div>
+    <div class="ri green">
+      <b>限位結</b>：減少墜落長度（人體無法承受超過 50cm 的墜落衝擊），使不同固定點間受力均勻
+    </div>
+  </div>
+
+  <div style="margin-top:16px;" class="knot-grid">
+    <div class="kcard green">
+      <div class="kname">樹幹固定點</div>
+      <div class="kbody">
+        <b>細樹叢/鋼筋</b>：雙股雙套，留一個繩圈打確保繩<br>
+        <b>粗樹幹</b>：sling 打栓牛結 + D鉤，確保打在 D鉤上<br>
+        <b>雙股雙套結 + 單結收尾</b> or sling 打栓牛結 + D鉤 + 主繩在 D鉤上打雙8
+      </div>
+    </div>
+    <div class="kcard blue">
+      <div class="kname">均力支點系統</div>
+      <div class="kbody">
+        兩固定點各繞輔助繩 + D鉤<br>
+        → 1.2m or 1.8m sling 兩端掛 D鉤（避開接縫）<br>
+        → 取其中一股<b>順/逆轉半圈</b><br>
+        → 在兩股最低處掛另一個 D鉤<br>
+        <span style="font-size:12px;color:#6b7280;">三個固定點：取其中兩股各轉半圈</span>
+      </div>
+    </div>
+    <div class="kcard orange">
+      <div class="kname">sling 長度建議</div>
+      <div class="kbody">
+        sling 最好 <b>&lt; 1.2m</b>（長了可縮短）<br>
+        避開接縫處掛 D鉤
+      </div>
+    </div>
+  </div>
+
+  <div class="step-card" style="margin-top:14px;">
+    <div class="step-title">📌 高支點架設（進階版）</div>
+    <div class="step-row"><div class="snum">1</div><div>細繩拋過高支點繞回</div></div>
+    <div class="step-row"><div class="snum">2</div><div>主繩抓中線提起，把 Sling 套過去</div></div>
+    <div class="step-row"><div class="snum">3</div><div>細繩一端在主繩中線位置打結，拉動細繩另一端，將主繩拉上去過支點</div></div>
+    <div class="step-row"><div class="snum">4</div><div>D鉤將主繩（中線）與 Sling 鉤在一起 → 解細繩 → 細繩另一端用<b>桶結</b>綁在 Sling 上（相對 D鉤另一端）</div></div>
+    <div class="step-row"><div class="snum">5</div><div>拉動雙股主繩往下，直到 Sling 完成固定點架設</div></div>
+    <div class="step-row"><div class="snum">回</div><div>拉動細繩 → Sling 解開，D鉤穿過 Sling 時靠另一手帶動主繩方向協助</div></div>
+    <div class="tip-box">✅ 消防高固定點打法參考：<a href="https://youtu.be/h6AAfXFig4s" target="_blank" style="color:#059669;">YouTube 影片</a></div>
+  </div>
+</div>
+
+<!-- ⑨ 固定圈結（考試必考）-->
+<div class="sec" id="loop-knots">
+  <div class="sec-head"><span class="sec-icon">🪢</span>
+    <div><div class="sec-title">固定圈結</div>
+    <div class="sec-sub">雙套結 × 稱人結系列 × 8字結系列｜考試至少5種</div></div>
+  </div>
+
+  <div class="warn-box" style="margin-bottom:16px;">
+    📋 <b>考試繩結清單（至少考5種）</b>：雙套結、稱人結、<b>雙稱人結</b>、普魯士結、單8字結、雙8字入繩、<b>雙環8字結</b>、雙漁人結、水結、阿爾卑斯蝴蝶結、義大利半扣、MMO
+  </div>
+
+  <div class="knot-grid">
+
+    <!-- 雙套結 -->
+    <div class="kcard green">
+      <div class="kname">雙套結<span class="kname-en">Clove Hitch</span></div>
+      <span class="ktag tag-g">固定點</span><span class="ktag tag-b">快速</span>
+      <div class="kbody">
+        將繩子繞過支點（柱、D鉤）兩圈，第二圈壓在第一圈上面，形成交叉 → 拉緊兩端<br><br>
+        <b>打在 D鉤上</b>（義大利半扣方式）：<br>
+        ① 右手正手翻半圈形成第一個繩圈<br>
+        ② 同向再翻半圈形成第二個繩圈<br>
+        ③ 第二圈疊在第一圈前方 → 兩圈一起扣入 D鉤
+      </div>
+      <ul class="kp">
+        <li class="ok">可在受力後微調長短</li>
+        <li class="ok">建立固定點時快速連結支點</li>
+        <li class="w">單獨使用須加安全結（單結）收尾</li>
+        <li class="w">細柱上容易滑動，需配合其他結使用</li>
+      </ul>
+      <span class="sbadge">≈ 雙套 vs 栓牛：正向手 = 雙套；反向手 = 栓牛</span>
+    </div>
+
+    <!-- 雙稱人結 -->
+    <div class="kcard blue">
+      <div class="kname">雙稱人結<span class="kname-en">Double Bowline</span></div>
+      <span class="ktag tag-b">安全結</span><span class="ktag tag-g">吊帶</span>
+      <div class="kbody">
+        比單稱人結多加一個保護圈，使繩結不易鬆脫，<b>不需要額外打安全結</b><br><br>
+        <b>步驟</b>：<br>
+        ① 繩端打一個小繩圈（兔子洞）<br>
+        ② 繩尾穿出小繩圈（兔子出洞）<br>
+        ③ <b>再穿回同一個繩圈一次</b>（兔子又回洞）= 形成雙重保護<br>
+        ④ 繩尾繞過背後繩（大樹）後再穿入繩圈收緊
+      </div>
+      <ul class="kp">
+        <li class="ok">比單稱人結安全，不需安全結</li>
+        <li class="ok">固定點、吊帶連結皆適用</li>
+        <li class="ok">受力後較易解開（比8字結易解）</li>
+        <li class="w">初學較難判斷結構是否正確</li>
+      </ul>
+      <span class="sbadge">攀岩系主繩連結吊帶的主流選擇</span>
+    </div>
+
+    <!-- 雙環8字結（兔耳結）-->
+    <div class="kcard purple">
+      <div class="kname">雙環8字結<span class="kname-en">Figure 8 Bunny Ears</span></div>
+      <span class="ktag tag-p">雙繩圈</span><span class="ktag tag-b">橫渡</span>
+      <div class="kbody">
+        在繩子中間（不需繩端）打出兩個獨立繩圈，<b>兩圈可獨立受力</b><br><br>
+        <b>步驟</b>：<br>
+        ① 取繩中間一段，折出兩個相鄰的小繩圈（雙股）<br>
+        ② 將這兩股繩一起打8字結（同一般單8字步驟）<br>
+        ③ 完成後形成兩個可調整大小的繩圈（兔耳）<br>
+        ④ 每個耳圈可各掛一個 D鉤
+      </div>
+      <ul class="kp">
+        <li class="ok">普魯士太長時可縮短：打成兔耳結縮短</li>
+        <li class="ok">橫渡繩橋、雙腳踏點各一個圈</li>
+        <li class="ok">不需繩端即可在中段打出雙繩圈</li>
+        <li>蝴蝶結（工程蝴蝶）的替代方案</li>
+      </ul>
+      <span class="sbadge">V雙環8 = 兔耳結 = Double Loop Figure-8</span>
+    </div>
+
+  </div>
+
+  <div class="refs" style="margin-top:14px;">
+    <div class="ri blue">
+      <b>稱人結系列比較</b>：單稱人結（需安全結）→ 雙稱人結（自帶保護，不需安全結）→ 三稱人結（極少用）<br>
+      <span style="font-size:12px;color:#6b7280;">解開容易度：稱人結 ＞ 8字結（8字受力後較難解）</span>
+    </div>
+    <div class="ri green">
+      <b>8字結系列</b>：單8字結（繩端收尾/縮短 sling）→ 雙8字入繩結（連接吊帶）→ 雙環8字結/兔耳結（雙繩圈需求）
+    </div>
+  </div>
+</div>
+
+<!-- ⑩ 義大利半扣詳解 -->
+<div class="sec" id="italian">
+  <div class="sec-head"><span class="sec-icon">🎯</span>
+    <div><div class="sec-title">義大利半扣詳解</div>
+    <div class="sec-sub">正手/反手 × 打在自己身上 vs 固定點</div></div>
+  </div>
+
+  <div class="info-box" style="margin-bottom:16px;">
+    <b>核心原則</b>：繩索放入鉤環時，以「受力繩」判斷正反向<br>
+    · 受力繩在<b>外側（遠離岩壁）</b> → 正手為正向<br>
+    · 受力繩在<b>裡側（靠近岩壁）</b> → 反手為正向<br><br>
+    ⚠️ 攀岩時絕對不可讓非受力繩（制動繩）在 D鉤開口那側！（Fall 時可能衝出）
+  </div>
+
+  <div class="knot-grid">
+    <div class="kcard blue">
+      <div class="kname">打在自己身上</div>
+      <div class="kbody">
+        <b>扣 D鉤</b>：右手正拿大D鉤，由右往左橫向扣進吊帶直向繩圈，再逆時針繞半圈使大D寬頭朝外<br><br>
+        <b>右手正手打</b>：「用D鉤去扣繩」→ 右手正手翻（由內往外、由下往上）半圈形成繩圈 → 繩圈繞到左邊D鉤開口處卡進去<br><br>
+        <b>左手反手打</b>：「用D鉤去扣繩」→ 左手反手翻（由外往內、由下往上）半圈形成繩圈 → 直接往下扣進左邊D鉤開口處
+      </div>
+    </div>
+    <div class="kcard green">
+      <div class="kname">打在固定點上</div>
+      <div class="kbody">
+        8字結打自己身上，另一頭綁固定點<br><br>
+        <b>受力繩在前面（D鉤開口朝右，大頭朝下）</b>：<br>
+        右手拿受力繩正手翻半圈 → 繩圈由右側掛入D鉤開口（繩包繩：受力繩被包在中間）<br><br>
+        <b>受力繩在後面</b>：<br>
+        右手拿受力繩反手翻半圈 → 繩圈由右側掛入D鉤開口
+      </div>
+      <div class="warn-box">⚠️ 打半扣時受力繩都不要繞過非受力繩（制動繩）</div>
+    </div>
+    <div class="kcard orange">
+      <div class="kname">MMO（Mountain Mule Overhand）</div>
+      <div class="kbody">
+        包兩條繩：<br>
+        M 半扣 → M 第一個滑結（<b>務必包進兩條繩</b>：受力繩與制動繩）→ O 單結<br><br>
+        若制動繩要另外使用，O 單結可不包制動繩
+      </div>
+    </div>
+  </div>
+
+  <div class="refs" style="margin-top:12px;">
+    <div class="ri"><b>繩結基本手勢口訣</b>：翻 · 穿 · 繞 · 抓（打滑結）</div>
+    <div class="ri blue">
+      <b>雙套 vs 栓牛</b>：拿<b>非受力繩</b>打 —<br>
+      · <b>正向手</b>拿非受力繩打 = <b>雙套結</b><br>
+      · <b>反向手</b>拿非受力繩打 = <b>栓牛結</b>
+    </div>
+  </div>
+</div>
+
+<!-- ⑩ 滑輪系統 -->
+<div class="sec" id="pulley">
+  <div class="sec-head"><span class="sec-icon">🔧</span>
+    <div><div class="sec-title">滑輪系統</div>
+    <div class="sec-sub">LRH × ATC-P 拖拉 × A Block / B Block</div></div>
+  </div>
+
+  <div class="refs">
+    <div class="ri blue">
+      <b>定滑輪</b>：不移動，用來轉向。幫忙抓繩：A block（VD = Valdotain Tresse + Distel）
+    </div>
+    <div class="ri green">
+      <b>動滑輪</b>：省力。可單向制停：咬繩器、B block（普魯士結）
+    </div>
+    <div class="ri orange">
+      <b>三眼滑輪系統</b>：摩擦繩兩眼 + 滑輪單眼<br>
+      B block（開放式普魯士）：右手拿雙眼、左手拿繩中間 → 左手上右手下 → 右手雙眼由下往上穿入左手繩圈 ×3 → 收緊後雙眼扣滑輪鉤環
+    </div>
+  </div>
+
+  <div class="step-card" style="margin-top:14px;">
+    <div class="step-title">📌 LRH（負重釋放系統 / 可釋放系統）封閉式</div>
+    <div class="warn-box" style="margin-bottom:10px;">⚠️ 解開時義大利半扣側要朝向自己。使用 ATC-P 時義大利半扣要扣在固定點上</div>
+    <div class="step-row"><div class="snum">1</div><div>D鉤×2 掛在兩人確保環 → 1.2m sling 掛入兩個D鉤（接縫靠遠端D鉤）</div></div>
+    <div class="step-row"><div class="snum">2</div><div>右手拿上方那股 sling，「從D鉤內圈始往左邊繞」成三股，開始打義大利半扣</div></div>
+    <div class="step-row"><div class="snum">3</div><div>右手拿剩餘繩尾由上往下從遠端D鉤繞入、再繞回近端D鉤（太長可多繞幾圈）</div></div>
+    <div class="step-row"><div class="snum">4</div><div>留一點繩尾後，從多股繩中間打章魚頭滑結（穿出繩圈後再穿回新繩圈拉緊）</div></div>
+    <div class="step-row"><div class="snum">5</div><div>繩尾扣上小D鉤防鬆脫</div></div>
+  </div>
+
+  <div class="step-card green">
+    <div class="step-title">📌 ATC-P 上升模組</div>
+    <div class="step-row"><div class="snum">1</div><div>打固定點 → 固定點繩圈裝 LRH（義大利半扣端「朝向固定點」）、分力盤掛固定點D鉤</div></div>
+    <div class="step-row"><div class="snum">2</div><div>主繩受力端打 A block，摩擦繩雙眼套進 LRH 的 D鉤</div></div>
+    <div class="step-row"><div class="snum">3</div><div>主繩套進 ATC + 滑輪鉤環「滑輪側」，鉤在分力盤「中間長度」繩圈<br>⚠️ ATC+滑輪鉤環一定要比 A block 短（靠近固定點），受力後 A block 才能制動</div></div>
+    <div class="step-row"><div class="snum">4</div><div>剩餘主繩往前拉到 A block 受力主繩前端，打 B block，套入滑輪鉤環「滑輪側」</div></div>
+  </div>
+
+  <div class="refs" style="margin-top:12px;">
+    <div class="ri"><b>溪降前脫困</b>：自己身上打義大利半扣 + MMO（不打單結）→ 落水前左手抽走 MMO + 右手放受力繩抽走義大利半扣 → free fall 落水</div>
+    <div class="ri blue"><b>拋繩 vs 帶繩時機</b>：拋繩（空曠/負重重）· 帶繩（地形崎嶇/竹林易卡繩）。拋繩分 A、B 捆，先拋靠近固定點那捆。</div>
+    <div class="ri orange"><b>個人技術裝備重量</b>：高效率個人技術裝備約 <b>1.3kg</b>；可救援（團體+個人）約 <b>2.3kg</b></div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+</body></html>
